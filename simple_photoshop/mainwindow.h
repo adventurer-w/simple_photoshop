@@ -18,4 +18,4 @@ public:
 private:
     Ui::MainWindow *ui;
 };
-#endif // MAINWINDOW_h 
+#endif // MAINWINDOW_
