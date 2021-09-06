@@ -47,10 +47,10 @@
    <widget class="QMenu" name="menuFile">
     <property name="geometry">
      <rect>
-      <x>1176</x>
+      <x>168</x>
       <y>116</y>
       <width>145</width>
-      <height>187</height>
+      <height>189</height>
      </rect>
     </property>
     <property name="title">
@@ -77,7 +77,8 @@
     <addaction name="actionRevocation"/>
     <addaction name="actionRestore"/>
     <addaction name="separator"/>
-    <addaction name="actionzoom"/>
+    <addaction name="actionBig"/>
+    <addaction name="actionSmall"/>
     <addaction name="actionRotate"/>
     <addaction name="menu_4"/>
     <addaction name="separator"/>
@@ -96,11 +97,24 @@
      <string>艺术效果</string>
     </property>
     <widget class="QMenu" name="menu_6">
+     <property name="geometry">
+      <rect>
+       <x>648</x>
+       <y>119</y>
+       <width>145</width>
+       <height>128</height>
+      </rect>
+     </property>
      <property name="title">
-      <string>滤镜</string>
+      <string>颜色滤镜</string>
+     </property>
+     <property name="icon">
+      <iconset resource="res.qrc">
+       <normaloff>:/image/mofabang1.png</normaloff>:/image/mofabang1.png</iconset>
      </property>
      <addaction name="actionCold"/>
      <addaction name="actionWorm"/>
+     <addaction name="actionSelf"/>
     </widget>
     <addaction name="menu_6"/>
     <addaction name="actionFrame"/>
@@ -142,6 +156,7 @@
    <attribute name="toolBarBreak">
     <bool>false</bool>
    </attribute>
+   <addaction name="separator"/>
   </widget>
   <action name="actionOpen">
    <property name="icon">
@@ -156,14 +171,18 @@
    </property>
   </action>
   <action name="actionClose">
+   <property name="icon">
+    <iconset resource="res.qrc">
+     <normaloff>:/image/关闭.png</normaloff>:/image/关闭.png</iconset>
+   </property>
    <property name="text">
     <string>关闭图片</string>
    </property>
   </action>
   <action name="actionSave">
    <property name="icon">
-    <iconset>
-     <normaloff>src/shangwutubiao-.png</normaloff>src/shangwutubiao-.png</iconset>
+    <iconset resource="res.qrc">
+     <normaloff>:/image/shangwutubiao-.png</normaloff>:/image/shangwutubiao-.png</iconset>
    </property>
    <property name="text">
     <string>保存(S)</string>
@@ -183,24 +202,36 @@
    </property>
   </action>
   <action name="actionRestore">
+   <property name="icon">
+    <iconset resource="res.qrc">
+     <normaloff>:/image/jurassic_restart.png</normaloff>:/image/jurassic_restart.png</iconset>
+   </property>
    <property name="text">
     <string>恢复</string>
    </property>
   </action>
-  <action name="actionzoom">
+  <action name="actionBig">
+   <property name="icon">
+    <iconset resource="res.qrc">
+     <normaloff>:/image/fangdasuoxiao_X.png</normaloff>:/image/fangdasuoxiao_X.png</iconset>
+   </property>
    <property name="text">
-    <string>缩放</string>
+    <string>放大</string>
    </property>
   </action>
   <action name="actionRotate">
+   <property name="icon">
+    <iconset resource="res.qrc">
+     <normaloff>:/image/rotate-right.png</normaloff>:/image/rotate-right.png</iconset>
+   </property>
    <property name="text">
     <string>旋转</string>
    </property>
   </action>
   <action name="actionRevocation">
    <property name="icon">
-    <iconset>
-     <normaloff>src/chexiao.png</normaloff>src/chexiao.png</iconset>
+    <iconset resource="res.qrc">
+     <normaloff>:/image/jurassic_laststep.png</normaloff>:/image/jurassic_laststep.png</iconset>
    </property>
    <property name="text">
     <string>撤销</string>
@@ -217,6 +248,10 @@
    </property>
   </action>
   <action name="actionLinear_transformation">
+   <property name="icon">
+    <iconset resource="res.qrc">
+     <normaloff>:/image/tongjitu01.png</normaloff>:/image/tongjitu01.png</iconset>
+   </property>
    <property name="text">
     <string>线性变换</string>
    </property>
@@ -227,6 +262,10 @@
    </property>
   </action>
   <action name="actionPower_transformation">
+   <property name="icon">
+    <iconset resource="res.qrc">
+     <normaloff>:/image/tongjitubiao-copy.png</normaloff>:/image/tongjitubiao-copy.png</iconset>
+   </property>
    <property name="text">
     <string>幂次变换</string>
    </property>
@@ -272,18 +311,48 @@
    </property>
   </action>
   <action name="actionAdjust_brightness">
+   <property name="icon">
+    <iconset resource="res.qrc">
+     <normaloff>:/image/taiyang1.png</normaloff>:/image/taiyang1.png</iconset>
+   </property>
    <property name="text">
     <string>亮度</string>
    </property>
   </action>
   <action name="actionHistogram">
+   <property name="icon">
+    <iconset resource="res.qrc">
+     <normaloff>:/image/tongjitu1.png</normaloff>:/image/tongjitu1.png</iconset>
+   </property>
    <property name="text">
     <string>直方图</string>
    </property>
   </action>
   <action name="actionGrayscale">
+   <property name="icon">
+    <iconset resource="res.qrc">
+     <normaloff>:/image/tongjitu.png</normaloff>:/image/tongjitu.png</iconset>
+   </property>
    <property name="text">
     <string>灰度图像</string>
+   </property>
+  </action>
+  <action name="actionSmall">
+   <property name="icon">
+    <iconset resource="res.qrc">
+     <normaloff>:/image/fangdasuoxiao_Y.png</normaloff>:/image/fangdasuoxiao_Y.png</iconset>
+   </property>
+   <property name="text">
+    <string>缩小</string>
+   </property>
+  </action>
+  <action name="actionSelf">
+   <property name="icon">
+    <iconset resource="res.qrc">
+     <normaloff>:/image/画画.png</normaloff>:/image/画画.png</iconset>
+   </property>
+   <property name="text">
+    <string>自定义</string>
    </property>
   </action>
  </widget>

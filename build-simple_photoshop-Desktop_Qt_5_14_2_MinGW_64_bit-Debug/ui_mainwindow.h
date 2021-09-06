@@ -10,6 +10,7 @@
 #define UI_MAINWINDOW_H
 
 #include <QtCore/QVariant>
+#include <QtGui/QIcon>
 #include <QtWidgets/QAction>
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QGraphicsView>
@@ -33,7 +34,7 @@ public:
     QAction *actionSave_as;
     QAction *actionExit;
     QAction *actionRestore;
-    QAction *actionzoom;
+    QAction *actionBig;
     QAction *actionRotate;
     QAction *actionRevocation;
     QAction *actionHorizontal;
@@ -52,6 +53,8 @@ public:
     QAction *actionAdjust_brightness;
     QAction *actionHistogram;
     QAction *actionGrayscale;
+    QAction *actionSmall;
+    QAction *actionSelf;
     QWidget *centralwidget;
     QVBoxLayout *verticalLayout;
     QVBoxLayout *verticalLayout_2;
@@ -82,36 +85,54 @@ public:
         actionOpen->setIcon(icon);
         actionClose = new QAction(MainWindow);
         actionClose->setObjectName(QString::fromUtf8("actionClose"));
+        QIcon icon1;
+        icon1.addFile(QString::fromUtf8(":/image/\345\205\263\351\227\255.png"), QSize(), QIcon::Normal, QIcon::Off);
+        actionClose->setIcon(icon1);
         actionSave = new QAction(MainWindow);
         actionSave->setObjectName(QString::fromUtf8("actionSave"));
-        QIcon icon1;
-        icon1.addFile(QString::fromUtf8("src/shangwutubiao-.png"), QSize(), QIcon::Normal, QIcon::Off);
-        actionSave->setIcon(icon1);
+        QIcon icon2;
+        icon2.addFile(QString::fromUtf8(":/image/shangwutubiao-.png"), QSize(), QIcon::Normal, QIcon::Off);
+        actionSave->setIcon(icon2);
         actionSave_as = new QAction(MainWindow);
         actionSave_as->setObjectName(QString::fromUtf8("actionSave_as"));
         actionExit = new QAction(MainWindow);
         actionExit->setObjectName(QString::fromUtf8("actionExit"));
         actionRestore = new QAction(MainWindow);
         actionRestore->setObjectName(QString::fromUtf8("actionRestore"));
-        actionzoom = new QAction(MainWindow);
-        actionzoom->setObjectName(QString::fromUtf8("actionzoom"));
+        QIcon icon3;
+        icon3.addFile(QString::fromUtf8(":/image/jurassic_restart.png"), QSize(), QIcon::Normal, QIcon::Off);
+        actionRestore->setIcon(icon3);
+        actionBig = new QAction(MainWindow);
+        actionBig->setObjectName(QString::fromUtf8("actionBig"));
+        QIcon icon4;
+        icon4.addFile(QString::fromUtf8(":/image/fangdasuoxiao_X.png"), QSize(), QIcon::Normal, QIcon::Off);
+        actionBig->setIcon(icon4);
         actionRotate = new QAction(MainWindow);
         actionRotate->setObjectName(QString::fromUtf8("actionRotate"));
+        QIcon icon5;
+        icon5.addFile(QString::fromUtf8(":/image/rotate-right.png"), QSize(), QIcon::Normal, QIcon::Off);
+        actionRotate->setIcon(icon5);
         actionRevocation = new QAction(MainWindow);
         actionRevocation->setObjectName(QString::fromUtf8("actionRevocation"));
-        QIcon icon2;
-        icon2.addFile(QString::fromUtf8("src/chexiao.png"), QSize(), QIcon::Normal, QIcon::Off);
-        actionRevocation->setIcon(icon2);
+        QIcon icon6;
+        icon6.addFile(QString::fromUtf8(":/image/jurassic_laststep.png"), QSize(), QIcon::Normal, QIcon::Off);
+        actionRevocation->setIcon(icon6);
         actionHorizontal = new QAction(MainWindow);
         actionHorizontal->setObjectName(QString::fromUtf8("actionHorizontal"));
         actionVertical = new QAction(MainWindow);
         actionVertical->setObjectName(QString::fromUtf8("actionVertical"));
         actionLinear_transformation = new QAction(MainWindow);
         actionLinear_transformation->setObjectName(QString::fromUtf8("actionLinear_transformation"));
+        QIcon icon7;
+        icon7.addFile(QString::fromUtf8(":/image/tongjitu01.png"), QSize(), QIcon::Normal, QIcon::Off);
+        actionLinear_transformation->setIcon(icon7);
         actionBinaryzation = new QAction(MainWindow);
         actionBinaryzation->setObjectName(QString::fromUtf8("actionBinaryzation"));
         actionPower_transformation = new QAction(MainWindow);
         actionPower_transformation->setObjectName(QString::fromUtf8("actionPower_transformation"));
+        QIcon icon8;
+        icon8.addFile(QString::fromUtf8(":/image/tongjitubiao-copy.png"), QSize(), QIcon::Normal, QIcon::Off);
+        actionPower_transformation->setIcon(icon8);
         actionFrame = new QAction(MainWindow);
         actionFrame->setObjectName(QString::fromUtf8("actionFrame"));
         actionCold = new QAction(MainWindow);
@@ -130,10 +151,29 @@ public:
         actionAverage->setObjectName(QString::fromUtf8("actionAverage"));
         actionAdjust_brightness = new QAction(MainWindow);
         actionAdjust_brightness->setObjectName(QString::fromUtf8("actionAdjust_brightness"));
+        QIcon icon9;
+        icon9.addFile(QString::fromUtf8(":/image/taiyang1.png"), QSize(), QIcon::Normal, QIcon::Off);
+        actionAdjust_brightness->setIcon(icon9);
         actionHistogram = new QAction(MainWindow);
         actionHistogram->setObjectName(QString::fromUtf8("actionHistogram"));
+        QIcon icon10;
+        icon10.addFile(QString::fromUtf8(":/image/tongjitu1.png"), QSize(), QIcon::Normal, QIcon::Off);
+        actionHistogram->setIcon(icon10);
         actionGrayscale = new QAction(MainWindow);
         actionGrayscale->setObjectName(QString::fromUtf8("actionGrayscale"));
+        QIcon icon11;
+        icon11.addFile(QString::fromUtf8(":/image/tongjitu.png"), QSize(), QIcon::Normal, QIcon::Off);
+        actionGrayscale->setIcon(icon11);
+        actionSmall = new QAction(MainWindow);
+        actionSmall->setObjectName(QString::fromUtf8("actionSmall"));
+        QIcon icon12;
+        icon12.addFile(QString::fromUtf8(":/image/fangdasuoxiao_Y.png"), QSize(), QIcon::Normal, QIcon::Off);
+        actionSmall->setIcon(icon12);
+        actionSelf = new QAction(MainWindow);
+        actionSelf->setObjectName(QString::fromUtf8("actionSelf"));
+        QIcon icon13;
+        icon13.addFile(QString::fromUtf8(":/image/\347\224\273\347\224\273.png"), QSize(), QIcon::Normal, QIcon::Off);
+        actionSelf->setIcon(icon13);
         centralwidget = new QWidget(MainWindow);
         centralwidget->setObjectName(QString::fromUtf8("centralwidget"));
         verticalLayout = new QVBoxLayout(centralwidget);
@@ -165,7 +205,7 @@ public:
         menubar->setGeometry(QRect(0, 0, 1196, 26));
         menuFile = new QMenu(menubar);
         menuFile->setObjectName(QString::fromUtf8("menuFile"));
-        menuFile->setGeometry(QRect(1176, 116, 145, 187));
+        menuFile->setGeometry(QRect(168, 116, 145, 189));
         menuEdit = new QMenu(menubar);
         menuEdit->setObjectName(QString::fromUtf8("menuEdit"));
         menu_4 = new QMenu(menuEdit);
@@ -176,6 +216,10 @@ public:
         menuArtistic_Effect->setObjectName(QString::fromUtf8("menuArtistic_Effect"));
         menu_6 = new QMenu(menuArtistic_Effect);
         menu_6->setObjectName(QString::fromUtf8("menu_6"));
+        menu_6->setGeometry(QRect(648, 119, 145, 128));
+        QIcon icon14;
+        icon14.addFile(QString::fromUtf8(":/image/mofabang1.png"), QSize(), QIcon::Normal, QIcon::Off);
+        menu_6->setIcon(icon14);
         menuBlur = new QMenu(menubar);
         menuBlur->setObjectName(QString::fromUtf8("menuBlur"));
         menuFind = new QMenu(menubar);
@@ -203,7 +247,8 @@ public:
         menuEdit->addAction(actionRevocation);
         menuEdit->addAction(actionRestore);
         menuEdit->addSeparator();
-        menuEdit->addAction(actionzoom);
+        menuEdit->addAction(actionBig);
+        menuEdit->addAction(actionSmall);
         menuEdit->addAction(actionRotate);
         menuEdit->addAction(menu_4->menuAction());
         menuEdit->addSeparator();
@@ -217,6 +262,7 @@ public:
         menuArtistic_Effect->addAction(actionFrame);
         menu_6->addAction(actionCold);
         menu_6->addAction(actionWorm);
+        menu_6->addAction(actionSelf);
         menuBlur->addAction(actionSimple);
         menuBlur->addAction(actionGauss);
         menuBlur->addSeparator();
@@ -226,6 +272,7 @@ public:
         menuBlur->addAction(actionLaplace);
         menuFind->addAction(actionHistogram);
         menuFind->addAction(actionGrayscale);
+        toolBar->addSeparator();
 
         retranslateUi(MainWindow);
 
@@ -247,7 +294,7 @@ public:
         actionSave_as->setText(QCoreApplication::translate("MainWindow", "\345\217\246\345\255\230\344\270\272", nullptr));
         actionExit->setText(QCoreApplication::translate("MainWindow", "\351\200\200\345\207\272", nullptr));
         actionRestore->setText(QCoreApplication::translate("MainWindow", "\346\201\242\345\244\215", nullptr));
-        actionzoom->setText(QCoreApplication::translate("MainWindow", "\347\274\251\346\224\276", nullptr));
+        actionBig->setText(QCoreApplication::translate("MainWindow", "\346\224\276\345\244\247", nullptr));
         actionRotate->setText(QCoreApplication::translate("MainWindow", "\346\227\213\350\275\254", nullptr));
         actionRevocation->setText(QCoreApplication::translate("MainWindow", "\346\222\244\351\224\200", nullptr));
         actionHorizontal->setText(QCoreApplication::translate("MainWindow", "\346\260\264\345\271\263", nullptr));
@@ -266,12 +313,14 @@ public:
         actionAdjust_brightness->setText(QCoreApplication::translate("MainWindow", "\344\272\256\345\272\246", nullptr));
         actionHistogram->setText(QCoreApplication::translate("MainWindow", "\347\233\264\346\226\271\345\233\276", nullptr));
         actionGrayscale->setText(QCoreApplication::translate("MainWindow", "\347\201\260\345\272\246\345\233\276\345\203\217", nullptr));
+        actionSmall->setText(QCoreApplication::translate("MainWindow", "\347\274\251\345\260\217", nullptr));
+        actionSelf->setText(QCoreApplication::translate("MainWindow", "\350\207\252\345\256\232\344\271\211", nullptr));
         menuFile->setTitle(QCoreApplication::translate("MainWindow", "\346\226\207\344\273\266", nullptr));
         menuEdit->setTitle(QCoreApplication::translate("MainWindow", "\347\274\226\350\276\221", nullptr));
         menu_4->setTitle(QCoreApplication::translate("MainWindow", "\347\277\273\350\275\254", nullptr));
         menuGrey_Transfrom->setTitle(QCoreApplication::translate("MainWindow", "\347\201\260\350\211\262\345\217\230\346\215\242", nullptr));
         menuArtistic_Effect->setTitle(QCoreApplication::translate("MainWindow", "\350\211\272\346\234\257\346\225\210\346\236\234", nullptr));
-        menu_6->setTitle(QCoreApplication::translate("MainWindow", "\346\273\244\351\225\234", nullptr));
+        menu_6->setTitle(QCoreApplication::translate("MainWindow", "\351\242\234\350\211\262\346\273\244\351\225\234", nullptr));
         menuBlur->setTitle(QCoreApplication::translate("MainWindow", "\346\250\241\347\263\212\344\270\216\351\224\220\345\214\226", nullptr));
         menuFind->setTitle(QCoreApplication::translate("MainWindow", "\346\237\245\347\234\213", nullptr));
         toolBar->setWindowTitle(QCoreApplication::translate("MainWindow", "toolBar", nullptr));

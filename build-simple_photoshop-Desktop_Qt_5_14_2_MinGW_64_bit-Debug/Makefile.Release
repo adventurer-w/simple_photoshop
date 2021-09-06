@@ -129,8 +129,10 @@ release/qrc_res.cpp: ../simple_photoshop/res.qrc \
 		../simple_photoshop/image/tongjitubiao-copy.png \
 		../simple_photoshop/image/shangwutubiao-.png \
 		../simple_photoshop/image/taiyang.png \
+		../simple_photoshop/image/??.png \
 		../simple_photoshop/image/wenjianjia1.png \
-		../simple_photoshop/image/ty.png
+		../simple_photoshop/image/ty.png \
+		../simple_photoshop/image/??.png
 	D:\qt\5.14.2\mingw73_64\bin\rcc.exe -name res ..\simple_photoshop\res.qrc -o release\qrc_res.cpp
 
 compiler_moc_predefs_make_all: release/moc_predefs.h

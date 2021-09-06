@@ -22,5 +22,7 @@
         <file>image/wenjianjia1.png</file>
         <file>image/ty.png</file>
         <file>image/wjj.png</file>
+        <file>image/关闭.png</file>
+        <file>image/画画.png</file>
     </qresource>
 </RCC>

@@ -13,6 +13,9 @@ class MainWindow : public QMainWindow
 
 public:
     MainWindow(QWidget *parent = nullptr);
+    void setActionStatus(bool);
+    void createToolBar();
+    void createAction();
     ~MainWindow();
 
 private:
