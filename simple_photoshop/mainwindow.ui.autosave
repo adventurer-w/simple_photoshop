@@ -96,8 +96,20 @@
      <string>艺术效果</string>
     </property>
     <widget class="QMenu" name="menu_6">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>0</y>
+       <width>137</width>
+       <height>102</height>
+      </rect>
+     </property>
      <property name="title">
       <string>滤镜</string>
+     </property>
+     <property name="icon">
+      <iconset resource="res.qrc">
+       <normaloff>:/image/mofabang1.png</normaloff>:/image/mofabang1.png</iconset>
      </property>
      <addaction name="actionCold"/>
      <addaction name="actionWorm"/>
@@ -162,8 +174,8 @@
   </action>
   <action name="actionSave">
    <property name="icon">
-    <iconset>
-     <normaloff>src/shangwutubiao-.png</normaloff>src/shangwutubiao-.png</iconset>
+    <iconset resource="res.qrc">
+     <normaloff>:/image/shangwutubiao-.png</normaloff>:/image/shangwutubiao-.png</iconset>
    </property>
    <property name="text">
     <string>保存(S)</string>
@@ -183,11 +195,19 @@
    </property>
   </action>
   <action name="actionRestore">
+   <property name="icon">
+    <iconset resource="res.qrc">
+     <normaloff>:/image/jurassic_restart.png</normaloff>:/image/jurassic_restart.png</iconset>
+   </property>
    <property name="text">
     <string>恢复</string>
    </property>
   </action>
   <action name="actionzoom">
+   <property name="icon">
+    <iconset resource="res.qrc">
+     <normaloff>:/image/fangdasuoxiao_X.png</normaloff>:/image/fangdasuoxiao_X.png</iconset>
+   </property>
    <property name="text">
     <string>缩放</string>
    </property>
@@ -199,8 +219,8 @@
   </action>
   <action name="actionRevocation">
    <property name="icon">
-    <iconset>
-     <normaloff>src/chexiao.png</normaloff>src/chexiao.png</iconset>
+    <iconset resource="res.qrc">
+     <normaloff>:/image/jurassic_laststep.png</normaloff>:/image/jurassic_laststep.png</iconset>
    </property>
    <property name="text">
     <string>撤销</string>
@@ -217,6 +237,10 @@
    </property>
   </action>
   <action name="actionLinear_transformation">
+   <property name="icon">
+    <iconset resource="res.qrc">
+     <normaloff>:/image/tongjitu01.png</normaloff>:/image/tongjitu01.png</iconset>
+   </property>
    <property name="text">
     <string>线性变换</string>
    </property>

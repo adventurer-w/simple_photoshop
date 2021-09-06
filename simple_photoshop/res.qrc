@@ -1,0 +1,26 @@
+<RCC>
+    <qresource prefix="/">
+        <file>image/fangdasuoxiao_X.png</file>
+        <file>image/fangdasuoxiao_Y.png</file>
+        <file>image/jurassic_laststep.png</file>
+        <file>image/jurassic_restart.png</file>
+        <file>image/mofabang.png</file>
+        <file>image/mofabang1.png</file>
+        <file>image/rotate-left.png</file>
+        <file>image/rotate-right.png</file>
+        <file>image/shangwutubiao-.png</file>
+        <file>image/taiyang.png</file>
+        <file>image/taiyang1.png</file>
+        <file>image/tongjitu.png</file>
+        <file>image/tongjitu01.png</file>
+        <file>image/tongjitu1.png</file>
+        <file>image/tongjitubiao-copy.png</file>
+        <file>image/tupian.png</file>
+        <file>image/tupian1.png</file>
+        <file>image/tupian2.png</file>
+        <file>image/tupian3.png</file>
+        <file>image/wenjianjia1.png</file>
+        <file>image/ty.png</file>
+        <file>image/wjj.png</file>
+    </qresource>
+</RCC>
