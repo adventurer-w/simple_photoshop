@@ -1,9 +1,31 @@
+#ifndef _MAT_HPP_
+#define _MAT_HPP_
+
 #include<stdlib.h>
 #include<ctime>
 #include<fstream>
 #include<Windows.h>
 #include<exception>
 #include<vector>
+#include<iostream>
+#include <QMainWindow>
+#include <QProcess>
+#include <QGraphicsPixmapItem>
+#include <QFileDialog>
+#include <QMessageBox>
+#include <QInputDialog>
+#include <QLabel>
+#include <QDebug>
+#include <QStandardPaths>
+#include <QTranslator>
+#include <QApplication>
+#include <QWidget>
+#include <QPainter>
+#include <QTime>
+#include <QDebug>
+#include <QImage>
+#include <QPixmap>
+
 template< typename T>
 class Mat
 {
@@ -84,7 +106,6 @@ public:
         std::swap(a.height, b.height);
     }//使用友元函数交换两个Mat对象
 
-protected:
     int height;
     int width;
     T **Rdata;
@@ -1182,3 +1203,4 @@ Mat<T> Mat<T>::gray() {
     }
     return temp;
 }
+#endif

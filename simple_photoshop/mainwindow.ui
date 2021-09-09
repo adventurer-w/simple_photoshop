@@ -20,10 +20,10 @@
       <item>
        <layout class="QHBoxLayout" name="horizontalLayout_2">
         <item>
-         <widget class="QGraphicsView" name="rightGraphicsView"/>
+         <widget class="QGraphicsView" name="leftGraphicsView"/>
         </item>
         <item>
-         <widget class="QGraphicsView" name="leftGraphicsView">
+         <widget class="QGraphicsView" name="rightGraphicsView">
           <property name="enabled">
            <bool>true</bool>
           </property>
@@ -47,7 +47,7 @@
    <widget class="QMenu" name="menuFile">
     <property name="geometry">
      <rect>
-      <x>168</x>
+      <x>190</x>
       <y>116</y>
       <width>145</width>
       <height>189</height>
@@ -84,22 +84,14 @@
     <addaction name="separator"/>
     <addaction name="actionAdjust_brightness"/>
    </widget>
-   <widget class="QMenu" name="menuGrey_Transfrom">
-    <property name="title">
-     <string>灰色变换</string>
-    </property>
-    <addaction name="actionLinear_transformation"/>
-    <addaction name="actionPower_transformation"/>
-    <addaction name="actionBinaryzation"/>
-   </widget>
    <widget class="QMenu" name="menuArtistic_Effect">
     <property name="title">
      <string>艺术效果</string>
     </property>
-    <widget class="QMenu" name="menu_6">
+    <widget class="QMenu" name="menu_art">
      <property name="geometry">
       <rect>
-       <x>648</x>
+       <x>501</x>
        <y>119</y>
        <width>145</width>
        <height>128</height>
@@ -116,7 +108,7 @@
      <addaction name="actionWorm"/>
      <addaction name="actionSelf"/>
     </widget>
-    <addaction name="menu_6"/>
+    <addaction name="menu_art"/>
     <addaction name="actionFrame"/>
    </widget>
    <widget class="QMenu" name="menuBlur">
@@ -140,7 +132,6 @@
    </widget>
    <addaction name="menuFile"/>
    <addaction name="menuEdit"/>
-   <addaction name="menuGrey_Transfrom"/>
    <addaction name="menuArtistic_Effect"/>
    <addaction name="menuBlur"/>
    <addaction name="menuFind"/>

@@ -59,15 +59,14 @@ public:
     QVBoxLayout *verticalLayout;
     QVBoxLayout *verticalLayout_2;
     QHBoxLayout *horizontalLayout_2;
-    QGraphicsView *rightGraphicsView;
     QGraphicsView *leftGraphicsView;
+    QGraphicsView *rightGraphicsView;
     QMenuBar *menubar;
     QMenu *menuFile;
     QMenu *menuEdit;
     QMenu *menu_4;
-    QMenu *menuGrey_Transfrom;
     QMenu *menuArtistic_Effect;
-    QMenu *menu_6;
+    QMenu *menu_art;
     QMenu *menuBlur;
     QMenu *menuFind;
     QStatusBar *statusbar;
@@ -182,16 +181,16 @@ public:
         verticalLayout_2->setObjectName(QString::fromUtf8("verticalLayout_2"));
         horizontalLayout_2 = new QHBoxLayout();
         horizontalLayout_2->setObjectName(QString::fromUtf8("horizontalLayout_2"));
-        rightGraphicsView = new QGraphicsView(centralwidget);
-        rightGraphicsView->setObjectName(QString::fromUtf8("rightGraphicsView"));
-
-        horizontalLayout_2->addWidget(rightGraphicsView);
-
         leftGraphicsView = new QGraphicsView(centralwidget);
         leftGraphicsView->setObjectName(QString::fromUtf8("leftGraphicsView"));
-        leftGraphicsView->setEnabled(true);
 
         horizontalLayout_2->addWidget(leftGraphicsView);
+
+        rightGraphicsView = new QGraphicsView(centralwidget);
+        rightGraphicsView->setObjectName(QString::fromUtf8("rightGraphicsView"));
+        rightGraphicsView->setEnabled(true);
+
+        horizontalLayout_2->addWidget(rightGraphicsView);
 
 
         verticalLayout_2->addLayout(horizontalLayout_2);
@@ -205,21 +204,19 @@ public:
         menubar->setGeometry(QRect(0, 0, 1196, 26));
         menuFile = new QMenu(menubar);
         menuFile->setObjectName(QString::fromUtf8("menuFile"));
-        menuFile->setGeometry(QRect(168, 116, 145, 189));
+        menuFile->setGeometry(QRect(190, 116, 145, 189));
         menuEdit = new QMenu(menubar);
         menuEdit->setObjectName(QString::fromUtf8("menuEdit"));
         menu_4 = new QMenu(menuEdit);
         menu_4->setObjectName(QString::fromUtf8("menu_4"));
-        menuGrey_Transfrom = new QMenu(menubar);
-        menuGrey_Transfrom->setObjectName(QString::fromUtf8("menuGrey_Transfrom"));
         menuArtistic_Effect = new QMenu(menubar);
         menuArtistic_Effect->setObjectName(QString::fromUtf8("menuArtistic_Effect"));
-        menu_6 = new QMenu(menuArtistic_Effect);
-        menu_6->setObjectName(QString::fromUtf8("menu_6"));
-        menu_6->setGeometry(QRect(648, 119, 145, 128));
+        menu_art = new QMenu(menuArtistic_Effect);
+        menu_art->setObjectName(QString::fromUtf8("menu_art"));
+        menu_art->setGeometry(QRect(501, 119, 145, 128));
         QIcon icon14;
         icon14.addFile(QString::fromUtf8(":/image/mofabang1.png"), QSize(), QIcon::Normal, QIcon::Off);
-        menu_6->setIcon(icon14);
+        menu_art->setIcon(icon14);
         menuBlur = new QMenu(menubar);
         menuBlur->setObjectName(QString::fromUtf8("menuBlur"));
         menuFind = new QMenu(menubar);
@@ -234,7 +231,6 @@ public:
 
         menubar->addAction(menuFile->menuAction());
         menubar->addAction(menuEdit->menuAction());
-        menubar->addAction(menuGrey_Transfrom->menuAction());
         menubar->addAction(menuArtistic_Effect->menuAction());
         menubar->addAction(menuBlur->menuAction());
         menubar->addAction(menuFind->menuAction());
@@ -255,14 +251,11 @@ public:
         menuEdit->addAction(actionAdjust_brightness);
         menu_4->addAction(actionHorizontal);
         menu_4->addAction(actionVertical);
-        menuGrey_Transfrom->addAction(actionLinear_transformation);
-        menuGrey_Transfrom->addAction(actionPower_transformation);
-        menuGrey_Transfrom->addAction(actionBinaryzation);
-        menuArtistic_Effect->addAction(menu_6->menuAction());
+        menuArtistic_Effect->addAction(menu_art->menuAction());
         menuArtistic_Effect->addAction(actionFrame);
-        menu_6->addAction(actionCold);
-        menu_6->addAction(actionWorm);
-        menu_6->addAction(actionSelf);
+        menu_art->addAction(actionCold);
+        menu_art->addAction(actionWorm);
+        menu_art->addAction(actionSelf);
         menuBlur->addAction(actionSimple);
         menuBlur->addAction(actionGauss);
         menuBlur->addSeparator();
@@ -318,9 +311,8 @@ public:
         menuFile->setTitle(QCoreApplication::translate("MainWindow", "\346\226\207\344\273\266", nullptr));
         menuEdit->setTitle(QCoreApplication::translate("MainWindow", "\347\274\226\350\276\221", nullptr));
         menu_4->setTitle(QCoreApplication::translate("MainWindow", "\347\277\273\350\275\254", nullptr));
-        menuGrey_Transfrom->setTitle(QCoreApplication::translate("MainWindow", "\347\201\260\350\211\262\345\217\230\346\215\242", nullptr));
         menuArtistic_Effect->setTitle(QCoreApplication::translate("MainWindow", "\350\211\272\346\234\257\346\225\210\346\236\234", nullptr));
-        menu_6->setTitle(QCoreApplication::translate("MainWindow", "\351\242\234\350\211\262\346\273\244\351\225\234", nullptr));
+        menu_art->setTitle(QCoreApplication::translate("MainWindow", "\351\242\234\350\211\262\346\273\244\351\225\234", nullptr));
         menuBlur->setTitle(QCoreApplication::translate("MainWindow", "\346\250\241\347\263\212\344\270\216\351\224\220\345\214\226", nullptr));
         menuFind->setTitle(QCoreApplication::translate("MainWindow", "\346\237\245\347\234\213", nullptr));
         toolBar->setWindowTitle(QCoreApplication::translate("MainWindow", "toolBar", nullptr));
