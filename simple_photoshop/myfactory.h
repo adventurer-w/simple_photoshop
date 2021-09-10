@@ -10,7 +10,6 @@ public:
     Myfactory();
     QPixmap getPixmap();
     QPixmap getPixmap(Mat<double> m);
-
 private:
     Mat<double> mymat;
 };

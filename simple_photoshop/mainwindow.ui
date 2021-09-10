@@ -47,7 +47,7 @@
    <widget class="QMenu" name="menuFile">
     <property name="geometry">
      <rect>
-      <x>190</x>
+      <x>178</x>
       <y>116</y>
       <width>145</width>
       <height>189</height>
@@ -91,7 +91,7 @@
     <widget class="QMenu" name="menu_art">
      <property name="geometry">
       <rect>
-       <x>501</x>
+       <x>413</x>
        <y>119</y>
        <width>145</width>
        <height>128</height>
@@ -108,8 +108,16 @@
      <addaction name="actionWorm"/>
      <addaction name="actionSelf"/>
     </widget>
+    <widget class="QMenu" name="menu">
+     <property name="title">
+      <string>相框</string>
+     </property>
+     <addaction name="actionMovie"/>
+     <addaction name="actionClassic"/>
+     <addaction name="actionFlower"/>
+    </widget>
     <addaction name="menu_art"/>
-    <addaction name="actionFrame"/>
+    <addaction name="menu"/>
    </widget>
    <widget class="QMenu" name="menuBlur">
     <property name="title">
@@ -130,9 +138,17 @@
     <addaction name="actionHistogram"/>
     <addaction name="actionGrayscale"/>
    </widget>
+   <widget class="QMenu" name="menuGray_change">
+    <property name="title">
+     <string>灰色变换</string>
+    </property>
+    <addaction name="actionLinear_change"/>
+    <addaction name="actionBinar_change"/>
+   </widget>
    <addaction name="menuFile"/>
    <addaction name="menuEdit"/>
    <addaction name="menuArtistic_Effect"/>
+   <addaction name="menuGray_change"/>
    <addaction name="menuBlur"/>
    <addaction name="menuFind"/>
   </widget>
@@ -261,11 +277,6 @@
     <string>幂次变换</string>
    </property>
   </action>
-  <action name="actionFrame">
-   <property name="text">
-    <string>电影相框</string>
-   </property>
-  </action>
   <action name="actionCold">
    <property name="text">
     <string>冷色</string>
@@ -344,6 +355,31 @@
    </property>
    <property name="text">
     <string>自定义</string>
+   </property>
+  </action>
+  <action name="actionMovie">
+   <property name="text">
+    <string>电影</string>
+   </property>
+  </action>
+  <action name="actionClassic">
+   <property name="text">
+    <string>经典</string>
+   </property>
+  </action>
+  <action name="actionFlower">
+   <property name="text">
+    <string>花花</string>
+   </property>
+  </action>
+  <action name="actionLinear_change">
+   <property name="text">
+    <string>线性变换</string>
+   </property>
+  </action>
+  <action name="actionBinar_change">
+   <property name="text">
+    <string>黑白化</string>
    </property>
   </action>
  </widget>

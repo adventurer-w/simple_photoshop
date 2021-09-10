@@ -2,7 +2,7 @@
 #include "ui_mainwindow.h"
 
 
-Mat<double> nowMat,prMat,nextMat;
+Mat<double> nowMat,prMat,oriMat,tempMat;
 Myfactory myfactory;
 QString imagePath;
 
@@ -34,14 +34,14 @@ MainWindow::MainWindow(QWidget *parent)
     createToolBar();
 
     setActionStatus(false);
-    setWindowTitle("Simple_ps");
+    setWindowTitle("Simple_photoshop");
 }
 
 void MainWindow::createToolBar(){
 
     ui->toolBar->addAction(ui->actionOpen);
     ui->toolBar->addSeparator();
-    ui->toolBar->addAction(ui->actionClose);
+    ui->toolBar->addAction(ui->actionRevocation);
     ui->toolBar->addSeparator();
     ui->toolBar->addAction(ui->actionRestore);
     ui->toolBar->addSeparator();
@@ -80,7 +80,11 @@ void MainWindow::setActionStatus(bool status)
     ui->actionCold->setEnabled(status);
     ui->actionWorm->setEnabled(status);
     ui->actionSelf->setEnabled(status);
-    ui->actionFrame->setEnabled(status);
+    ui->actionBinar_change->setEnabled(status);
+    ui->actionLinear_change->setEnabled(status);
+    ui->actionMovie->setEnabled(status);
+    ui->actionFlower->setEnabled(status);
+    ui->actionClassic->setEnabled(status);
     ui->actionSimple->setEnabled(status);
     ui->actionGauss->setEnabled(status);
     ui->actionAverage->setEnabled(status);
@@ -92,8 +96,10 @@ void MainWindow::setActionStatus(bool status)
     ui->menuBlur->setEnabled(status);
     ui->menuEdit->setEnabled(status);
     ui->menuArtistic_Effect->setEnabled(status);
-
+    ui->menuGray_change->setEnabled(status);
 }
+
+
 
 void MainWindow::cleanImage()
 {
@@ -114,6 +120,17 @@ void MainWindow::cleanImage()
     setActionStatus(false);
 }
 
+void MainWindow::updateRightImage(QPixmap &pixmap){
+
+
+    rightPixmapItem->setPixmap(pixmap);
+    rightScene->setSceneRect(QRectF(pixmap.rect()));
+
+    size->setText(QString::number(rightPixmapItem->pixmap().width())
+                  + " x " + QString::number(rightPixmapItem->pixmap().height()));
+}
+
+
 void MainWindow::on_actionOpen_triggered()
 {
         // Automatically detects the current user's home directory
@@ -125,12 +142,12 @@ void MainWindow::on_actionOpen_triggered()
 
         nowMat.ReadText(ch);
         prMat = nowMat;
+        oriMat = nowMat;
         QPixmap leftPixmap=myfactory.getPixmap(nowMat);
 
     if (!imagePath.isEmpty())
     {
-
-
+        cleanImage();
         leftPixmapItem = leftScene->addPixmap(leftPixmap);
         leftScene->setSceneRect(QRectF(leftPixmap.rect()));
 
@@ -168,3 +185,144 @@ void MainWindow::on_actionSave_as_triggered()
         rightPixmapItem->pixmap().save(newPath);
     }
 }
+
+void MainWindow::on_actionExit_triggered()
+{
+    qApp->quit();
+}
+
+void MainWindow::on_actionVertical_triggered(){
+
+    prMat = nowMat;
+    nowMat = prMat.Flip(1);
+    QPixmap rightPixmap=myfactory.getPixmap(nowMat);
+
+
+    rightPixmapItem = rightScene->addPixmap(rightPixmap);
+    rightScene->setSceneRect(QRectF(rightPixmap.rect()));
+
+    size->setText(QString::number(rightPixmapItem->pixmap().width())
+                  + " x " + QString::number(rightPixmapItem->pixmap().height()));
+}
+
+void MainWindow::on_actionHorizontal_triggered(){
+    prMat = nowMat;
+    nowMat = prMat.Flip(0);
+    QPixmap rightPixmap=myfactory.getPixmap(nowMat);
+
+    rightPixmapItem = rightScene->addPixmap(rightPixmap);
+    rightScene->setSceneRect(QRectF(rightPixmap.rect()));
+
+    size->setText(QString::number(rightPixmapItem->pixmap().width())
+                  + " x " + QString::number(rightPixmapItem->pixmap().height()));
+}
+
+void MainWindow::on_actionRevocation_triggered(){
+    QPixmap rightPixmap=myfactory.getPixmap(prMat);
+
+    updateRightImage(rightPixmap);
+    ui->rightGraphicsView->resetTransform();
+
+    nowMat = prMat;
+}
+
+void MainWindow::on_actionRestore_triggered(){
+    QPixmap rightPixmap=myfactory.getPixmap(oriMat);
+
+    updateRightImage(rightPixmap);
+    ui->rightGraphicsView->resetTransform();
+
+    prMat = oriMat;
+    nowMat = prMat;
+}
+
+void MainWindow::on_actionBig_triggered(){
+    prMat = nowMat;
+    int h =(int)prMat.height*1.2;
+    int w = (int)prMat.height*1.2;
+    nowMat = prMat.Resize(h,w);
+    QPixmap rightPixmap=myfactory.getPixmap(nowMat);
+
+    updateRightImage(rightPixmap);
+}
+
+void MainWindow::on_actionSmall_triggered(){
+    prMat = nowMat;
+    int h =(int)prMat.height*0.8;
+    int w = (int)prMat.height*0.8;
+    nowMat = prMat.Resize(h,w);
+    QPixmap rightPixmap=myfactory.getPixmap(nowMat);
+
+    updateRightImage(rightPixmap);
+}
+
+void MainWindow::on_actionRotate_triggered(){
+
+    bool ok;
+    int factor = QInputDialog::getInt(this, tr("旋转"), "请输入要旋转的角度",0,-360,360,10,&ok);
+    if (ok)
+    {
+        if (factor != 0)
+        {
+            prMat = nowMat;
+            nowMat = prMat.Rotate(factor);
+            QPixmap rightPixmap=myfactory.getPixmap(nowMat);
+            updateRightImage(rightPixmap);
+        }
+        else
+        {
+            return;
+        }
+    }
+
+}
+void MainWindow::on_actionAdjust_brightness_triggered()
+{
+
+    bool ok;
+    int delta = QInputDialog::getInt(this,
+                                     tr("改变亮度"),
+                                     "输入调整的亮度百分比(+/-)",
+                                     0,-100,100,10,&ok);
+    if (ok)
+    {
+        if (delta != 0)
+        {
+            prMat = nowMat;
+            nowMat = prMat.Mult_all(1.0+(1.0*delta/100));
+            QPixmap rightPixmap=myfactory.getPixmap(nowMat);
+            updateRightImage(rightPixmap);
+
+        }
+        else
+        {
+            return;
+        }
+    }
+}
+void MainWindow::on_actionCold_triggered()
+{
+    prMat = nowMat;
+    nowMat = prMat.Mult(1.2,2);
+    QPixmap rightPixmap=myfactory.getPixmap(nowMat);
+    updateRightImage(rightPixmap);
+}
+
+void MainWindow::on_actionWorm_triggered()
+{
+    prMat = nowMat;
+    nowMat = prMat.Mult(1.2,0);
+    QPixmap rightPixmap=myfactory.getPixmap(nowMat);
+    updateRightImage(rightPixmap);
+}
+
+void MainWindow::on_actionSelf_triggered(){
+
+    QColor color = QColorDialog::getColor(Qt::red,this,
+                                          tr("请选择滤镜颜色"));
+    prMat = nowMat;
+    nowMat = prMat.Mymix(color.green(),color.red(),color.blue());
+    QPixmap rightPixmap=myfactory.getPixmap(nowMat);
+    updateRightImage(rightPixmap);
+}
+

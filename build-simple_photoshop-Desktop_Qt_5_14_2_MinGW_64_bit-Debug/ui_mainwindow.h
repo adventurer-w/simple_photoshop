@@ -42,7 +42,6 @@ public:
     QAction *actionLinear_transformation;
     QAction *actionBinaryzation;
     QAction *actionPower_transformation;
-    QAction *actionFrame;
     QAction *actionCold;
     QAction *actionWorm;
     QAction *actionSimple;
@@ -55,6 +54,11 @@ public:
     QAction *actionGrayscale;
     QAction *actionSmall;
     QAction *actionSelf;
+    QAction *actionMovie;
+    QAction *actionClassic;
+    QAction *actionFlower;
+    QAction *actionLinear_change;
+    QAction *actionBinar_change;
     QWidget *centralwidget;
     QVBoxLayout *verticalLayout;
     QVBoxLayout *verticalLayout_2;
@@ -67,8 +71,10 @@ public:
     QMenu *menu_4;
     QMenu *menuArtistic_Effect;
     QMenu *menu_art;
+    QMenu *menu;
     QMenu *menuBlur;
     QMenu *menuFind;
+    QMenu *menuGray_change;
     QStatusBar *statusbar;
     QToolBar *toolBar;
 
@@ -132,8 +138,6 @@ public:
         QIcon icon8;
         icon8.addFile(QString::fromUtf8(":/image/tongjitubiao-copy.png"), QSize(), QIcon::Normal, QIcon::Off);
         actionPower_transformation->setIcon(icon8);
-        actionFrame = new QAction(MainWindow);
-        actionFrame->setObjectName(QString::fromUtf8("actionFrame"));
         actionCold = new QAction(MainWindow);
         actionCold->setObjectName(QString::fromUtf8("actionCold"));
         actionWorm = new QAction(MainWindow);
@@ -173,6 +177,16 @@ public:
         QIcon icon13;
         icon13.addFile(QString::fromUtf8(":/image/\347\224\273\347\224\273.png"), QSize(), QIcon::Normal, QIcon::Off);
         actionSelf->setIcon(icon13);
+        actionMovie = new QAction(MainWindow);
+        actionMovie->setObjectName(QString::fromUtf8("actionMovie"));
+        actionClassic = new QAction(MainWindow);
+        actionClassic->setObjectName(QString::fromUtf8("actionClassic"));
+        actionFlower = new QAction(MainWindow);
+        actionFlower->setObjectName(QString::fromUtf8("actionFlower"));
+        actionLinear_change = new QAction(MainWindow);
+        actionLinear_change->setObjectName(QString::fromUtf8("actionLinear_change"));
+        actionBinar_change = new QAction(MainWindow);
+        actionBinar_change->setObjectName(QString::fromUtf8("actionBinar_change"));
         centralwidget = new QWidget(MainWindow);
         centralwidget->setObjectName(QString::fromUtf8("centralwidget"));
         verticalLayout = new QVBoxLayout(centralwidget);
@@ -204,7 +218,7 @@ public:
         menubar->setGeometry(QRect(0, 0, 1196, 26));
         menuFile = new QMenu(menubar);
         menuFile->setObjectName(QString::fromUtf8("menuFile"));
-        menuFile->setGeometry(QRect(190, 116, 145, 189));
+        menuFile->setGeometry(QRect(178, 116, 145, 189));
         menuEdit = new QMenu(menubar);
         menuEdit->setObjectName(QString::fromUtf8("menuEdit"));
         menu_4 = new QMenu(menuEdit);
@@ -213,14 +227,18 @@ public:
         menuArtistic_Effect->setObjectName(QString::fromUtf8("menuArtistic_Effect"));
         menu_art = new QMenu(menuArtistic_Effect);
         menu_art->setObjectName(QString::fromUtf8("menu_art"));
-        menu_art->setGeometry(QRect(501, 119, 145, 128));
+        menu_art->setGeometry(QRect(413, 119, 145, 128));
         QIcon icon14;
         icon14.addFile(QString::fromUtf8(":/image/mofabang1.png"), QSize(), QIcon::Normal, QIcon::Off);
         menu_art->setIcon(icon14);
+        menu = new QMenu(menuArtistic_Effect);
+        menu->setObjectName(QString::fromUtf8("menu"));
         menuBlur = new QMenu(menubar);
         menuBlur->setObjectName(QString::fromUtf8("menuBlur"));
         menuFind = new QMenu(menubar);
         menuFind->setObjectName(QString::fromUtf8("menuFind"));
+        menuGray_change = new QMenu(menubar);
+        menuGray_change->setObjectName(QString::fromUtf8("menuGray_change"));
         MainWindow->setMenuBar(menubar);
         statusbar = new QStatusBar(MainWindow);
         statusbar->setObjectName(QString::fromUtf8("statusbar"));
@@ -232,6 +250,7 @@ public:
         menubar->addAction(menuFile->menuAction());
         menubar->addAction(menuEdit->menuAction());
         menubar->addAction(menuArtistic_Effect->menuAction());
+        menubar->addAction(menuGray_change->menuAction());
         menubar->addAction(menuBlur->menuAction());
         menubar->addAction(menuFind->menuAction());
         menuFile->addAction(actionOpen);
@@ -252,10 +271,13 @@ public:
         menu_4->addAction(actionHorizontal);
         menu_4->addAction(actionVertical);
         menuArtistic_Effect->addAction(menu_art->menuAction());
-        menuArtistic_Effect->addAction(actionFrame);
+        menuArtistic_Effect->addAction(menu->menuAction());
         menu_art->addAction(actionCold);
         menu_art->addAction(actionWorm);
         menu_art->addAction(actionSelf);
+        menu->addAction(actionMovie);
+        menu->addAction(actionClassic);
+        menu->addAction(actionFlower);
         menuBlur->addAction(actionSimple);
         menuBlur->addAction(actionGauss);
         menuBlur->addSeparator();
@@ -265,6 +287,8 @@ public:
         menuBlur->addAction(actionLaplace);
         menuFind->addAction(actionHistogram);
         menuFind->addAction(actionGrayscale);
+        menuGray_change->addAction(actionLinear_change);
+        menuGray_change->addAction(actionBinar_change);
         toolBar->addSeparator();
 
         retranslateUi(MainWindow);
@@ -295,7 +319,6 @@ public:
         actionLinear_transformation->setText(QCoreApplication::translate("MainWindow", "\347\272\277\346\200\247\345\217\230\346\215\242", nullptr));
         actionBinaryzation->setText(QCoreApplication::translate("MainWindow", "\344\272\214\345\200\274\345\214\226", nullptr));
         actionPower_transformation->setText(QCoreApplication::translate("MainWindow", "\345\271\202\346\254\241\345\217\230\346\215\242", nullptr));
-        actionFrame->setText(QCoreApplication::translate("MainWindow", "\347\224\265\345\275\261\347\233\270\346\241\206", nullptr));
         actionCold->setText(QCoreApplication::translate("MainWindow", "\345\206\267\350\211\262", nullptr));
         actionWorm->setText(QCoreApplication::translate("MainWindow", "\346\232\226\350\211\262", nullptr));
         actionSimple->setText(QCoreApplication::translate("MainWindow", "\347\256\200\345\215\225\346\250\241\347\263\212", nullptr));
@@ -308,13 +331,20 @@ public:
         actionGrayscale->setText(QCoreApplication::translate("MainWindow", "\347\201\260\345\272\246\345\233\276\345\203\217", nullptr));
         actionSmall->setText(QCoreApplication::translate("MainWindow", "\347\274\251\345\260\217", nullptr));
         actionSelf->setText(QCoreApplication::translate("MainWindow", "\350\207\252\345\256\232\344\271\211", nullptr));
+        actionMovie->setText(QCoreApplication::translate("MainWindow", "\347\224\265\345\275\261", nullptr));
+        actionClassic->setText(QCoreApplication::translate("MainWindow", "\347\273\217\345\205\270", nullptr));
+        actionFlower->setText(QCoreApplication::translate("MainWindow", "\350\212\261\350\212\261", nullptr));
+        actionLinear_change->setText(QCoreApplication::translate("MainWindow", "\347\272\277\346\200\247\345\217\230\346\215\242", nullptr));
+        actionBinar_change->setText(QCoreApplication::translate("MainWindow", "\351\273\221\347\231\275\345\214\226", nullptr));
         menuFile->setTitle(QCoreApplication::translate("MainWindow", "\346\226\207\344\273\266", nullptr));
         menuEdit->setTitle(QCoreApplication::translate("MainWindow", "\347\274\226\350\276\221", nullptr));
         menu_4->setTitle(QCoreApplication::translate("MainWindow", "\347\277\273\350\275\254", nullptr));
         menuArtistic_Effect->setTitle(QCoreApplication::translate("MainWindow", "\350\211\272\346\234\257\346\225\210\346\236\234", nullptr));
         menu_art->setTitle(QCoreApplication::translate("MainWindow", "\351\242\234\350\211\262\346\273\244\351\225\234", nullptr));
+        menu->setTitle(QCoreApplication::translate("MainWindow", "\347\233\270\346\241\206", nullptr));
         menuBlur->setTitle(QCoreApplication::translate("MainWindow", "\346\250\241\347\263\212\344\270\216\351\224\220\345\214\226", nullptr));
         menuFind->setTitle(QCoreApplication::translate("MainWindow", "\346\237\245\347\234\213", nullptr));
+        menuGray_change->setTitle(QCoreApplication::translate("MainWindow", "\347\201\260\350\211\262\345\217\230\346\215\242", nullptr));
         toolBar->setWindowTitle(QCoreApplication::translate("MainWindow", "toolBar", nullptr));
     } // retranslateUi
 

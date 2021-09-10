@@ -25,6 +25,8 @@
 #include <QDebug>
 #include <QImage>
 #include <QPixmap>
+#include <math.h>
+#include <QColorDialog>
 
 template< typename T>
 class Mat
@@ -75,6 +77,8 @@ public:
     Mat<T> Mult_all(double s);
     Mat<T> Cat(Mat<T> &m, int code); // 将m与当前对象进行拼接，code代表拼接的方式
 
+    Mat<T> Mymix(int r,int g,int b);
+
     Mat<T> Clone(); // 从当前对象拷贝创建一个新的矩阵，完成深拷贝
     T Mean(int op) ;
     T Median(int op) ;
@@ -92,7 +96,7 @@ public:
     Mat<T> Add( const Mat<T>& m2); // 友元函数，将矩阵m1和m2相加，结果矩阵作为函数的返回值
     Mat<T> Sub(const Mat<T>& m2); // 友元函数，将矩阵m1和m2相减，结果矩阵作为函数的返回值
     Mat<T> Mult( const Mat<T>& m2);
-   Mat<T> Divi( const Mat<T>& m2);
+    Mat<T> Divi( const Mat<T>& m2);
 
     Mat<T> gray2bw(T t); //以给定阈值t进行二值化，返回结果对象
     Mat<T> gray(); //黑白化
@@ -477,12 +481,9 @@ Mat<T> Mat<T>::Resize(int h, int w){
 
     }
 
-    bool hBig = h > height;
-    bool wBig = w > width;
-    double hi = height / h;
-    double wi = width / w;
-    double p, q;
-    p = q = 0;
+    double hi = height*1.0 / h;
+    double wi = width*1.0 / w;
+    std::cout<<height<<"  "<<h;
     auto Rtemp = new T* [h];
     auto Gtemp = new T* [h];
     auto Btemp = new T* [h];
@@ -494,16 +495,13 @@ Mat<T> Mat<T>::Resize(int h, int w){
 
     for (int i = 0; i < h; ++i) {
         for (int j = 0; j < w; ++j) {
-            Rtemp[i][j] = Rdata[(int)p][(int)q];
-            Gtemp[i][j] = Gdata[(int)p][(int)q];
-            Btemp[i][j] = Bdata[(int)p][(int)q];
-            q += wi;
+            Rtemp[i][j] = Rdata[(int)(i*hi)][(int)(j*wi)];
+            Gtemp[i][j] = Gdata[(int)(i*hi)][(int)(j*wi)];
+            Btemp[i][j] = Bdata[(int)(i*hi)][(int)(j*wi)];
         }
-        q = 0;
-        p += hi;
     }
 
-    Mat<T> temp();
+    Mat<T> temp(h,w);
     temp.Rdata = Rtemp;
     temp.Gdata = Gtemp;
     temp.Bdata = Btemp;
@@ -514,8 +512,7 @@ Mat<T> Mat<T>::Resize(int h, int w){
 
 template< typename T>
 Mat<T> Mat<T>::Crop(int x1, int y1, int x2, int y2){
-    if (IsEmpty()) {
-    }
+
     if (x1 > x2) std::swap(x1, x2);
     if (y1 > y2) std::swap(y1, y2);
     if (x1 < 0 || y1 < 0 || x2 >= width || y2 >= height) {
@@ -551,25 +548,54 @@ Mat<T> Mat<T>::Crop(int x1, int y1, int x2, int y2){
 
 template<typename T>
 Mat<T> Mat<T>::Rotate(int degree){
-    if (IsEmpty()) {
-    }
-    degree /= 90;
-    degree %= 4;
-    if (degree < 0) degree += 4;
-    Mat<T> temp(*this);
+    double theta = degree * 3.1415926535 / 180.0;
+    double c = cos(theta);
+    double s = sin(theta);
 
-    for (int i = 0; i < degree; ++i) {
-        for (int j = 0; j < width; ++j) {
-            for (int k = 0; k < height; ++k) {
-                temp.Rdata[j][k] = temp.Rdata[k][j];
-                temp.Gdata[j][k] = temp.Gdata[k][j];
-                temp.Bdata[j][k] = temp.Bdata[k][j];
+    int h = (height ) / 2;
+    int w = (width ) / 2;
+
+
+    int wt = fabs(c)*width+fabs(s)*height;
+    int ht = fabs(c)*height+fabs(s)*width;
+    Mat<T> temp(ht,wt);
+
+    c = cos(-theta);
+    s = sin(-theta);
+    h = (temp.height ) / 2;
+    w = (temp.width ) / 2;
+
+    temp.Rdata = new T* [ht];
+    temp.Gdata = new T* [ht];
+    temp.Bdata = new T* [ht];
+
+    for(int i=0;i<ht;i++){
+        temp.Rdata[i] = new T [wt];
+        temp.Gdata[i] = new T [wt];
+        temp.Bdata[i] = new T [wt];
+    }
+
+    double di = -w * c - h * s + width / 2;
+    double dj = -h * c + w * s + height / 2;
+    for (int i = 0; i < ht; i++)
+    {
+        for (int j = 0; j < wt; j++)
+        {
+            double x = i * c + j * s + di;
+            double y = j * c - i * s + dj;
+            if (x >= height || y >= width || x < 0 || y < 0){
+                temp.Rdata[i][j] = temp.Gdata[i][j] = temp.Bdata[i][j]=225;
+            }else {
+                temp.Rdata[i][j] = Rdata[(int)x][(int)y];
+                temp.Gdata[i][j] = Gdata[(int)x][(int)y];
+                temp.Bdata[i][j] = Bdata[(int)x][(int)y];
             }
         }
     }
-    return temp;
-}
 
+    return temp;
+
+}
 template<typename T>
 T Mat<T>::Variance(int op){
     T mean = Mean(op);
@@ -622,10 +648,46 @@ Mat<T> Mat<T>::Transpose() {
 }
 
 template< typename T>
+Mat<T> Mat<T>::Mymix(int r,int g,int b) {
+
+    Mat<T> tp(width,height);
+    tp.Rdata = new T* [height];
+    tp.Gdata = new T* [height];
+    tp.Bdata = new T* [height];
+
+    for (int i = 0; i < height; ++i) {
+
+        tp.Rdata[i] = new T[width];
+        tp.Gdata[i] = new T[width];
+        tp.Bdata[i] = new T[width];
+
+        for (int j = 0; j < width; ++j) {
+            if((Rdata[i][j]*0.7+r*0.3)>=255){
+                tp.Rdata[i][j]=255;
+            }else{
+                tp.Rdata[i][j]=(Rdata[i][j]*0.7+r*0.3);
+            }
+
+            if((Gdata[i][j]*0.7+g*0.3)>=255){
+                tp.Gdata[i][j]=255;
+            }else{
+                tp.Gdata[i][j]=(Gdata[i][j]*0.7+g*0.3);
+            }
+
+            if((Bdata[i][j]*0.7+b*0.3)>=255){
+                tp.Bdata[i][j]=255;
+            }else{
+                tp.Bdata[i][j]=(Bdata[i][j]*0.8+b*0.2);
+            }
+        }
+    }
+    return tp;
+}
+
+template< typename T>
 T* Mat<T>::At(int row,int col){
     if (row < 0 || row >= height || col < 0 || col >= width) {
         std::cout<<"超出边界"<<std::endl;
-
     }
     T* temp=new T[3];
     temp[0]=Rdata[row][col];
@@ -759,19 +821,31 @@ Mat<T> Mat<T>::Mult(double s, int op) {
     if(op==0){
         for (int i = 0; i < height; ++i) {
             for (int j = 0; j < width; ++j) {
-                tp.Rdata[i][j] *= s;
+                if(Rdata[i][j]*s>=255){
+                    tp.Rdata[i][j] =255;
+                }else {
+                    tp.Rdata[i][j] *= s;
+                }
             }
         }
     } else if(op==1){
         for (int i = 0; i < height; ++i) {
             for (int j = 0; j < width; ++j) {
-                tp.Gdata[i][j] *= s;
+                if(Gdata[i][j]*s>=255){
+                    tp.Gdata[i][j] =255;
+                }else {
+                    tp.Gdata[i][j] *= s;
+                }
             }
         }
     }else{
         for (int i = 0; i < height; ++i) {
             for (int j = 0; j < width; ++j) {
-                tp.Bdata[i][j] *= s;
+                if(Bdata[i][j]*s>=255){
+                    tp.Bdata[i][j] =255;
+                }else {
+                    tp.Bdata[i][j] *= s;
+                }
             }
         }
     }
@@ -784,9 +858,23 @@ Mat<T> Mat<T>::Mult_all(double s) {
 
         for (int i = 0; i < height; ++i) {
             for (int j = 0; j < width; ++j) {
-                tp.Rdata[i][j] *= s;
-                tp.Gdata[i][j] *=s;
-                tp.Bdata[i][j] *=s;
+                if(tp.Rdata[i][j]*s>=255){
+                    tp.Rdata[i][j] =255;
+                }else{
+                    tp.Rdata[i][j] *= s;
+                }
+
+                if(tp.Gdata[i][j]*s>=255){
+                    tp.Gdata[i][j] =255;
+                }else{
+                    tp.Gdata[i][j] *= s;
+                }
+
+                if(tp.Bdata[i][j]*s>=255){
+                    tp.Bdata[i][j] =255;
+                }else{
+                    tp.Bdata[i][j] *= s;
+                }
             }
         }
 

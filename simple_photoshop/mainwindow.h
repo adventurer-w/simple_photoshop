@@ -17,7 +17,7 @@ class MainWindow : public QMainWindow
 public:
     MainWindow(QWidget *parent = nullptr);
     void setActionStatus(bool);
-    void updateRightImage(Mat<double> &pixmap);
+    void updateRightImage(QPixmap &pixmap);
     void cleanImage();
     void createToolBar();
     void createAction();
@@ -30,23 +30,23 @@ private slots:
     void on_actionClose_triggered();
     void on_actionSave_triggered();
     void on_actionSave_as_triggered();
-//    void on_actionExit_triggered();
+    void on_actionExit_triggered();
 
-//    void on_actionHorizontal_triggered();
-//    void on_actionVertical_triggered();
-//    void on_actionRevocation_triggered();
-//    void on_actionRestore_triggered();
-//    void on_actionBig_triggered();
-//    void on_actionSmall_triggered();
+    void on_actionHorizontal_triggered();
+    void on_actionVertical_triggered();
+    void on_actionRevocation_triggered();
+    void on_actionRestore_triggered();
+    void on_actionBig_triggered();
+    void on_actionSmall_triggered();
 
-//    void on_actionRotate_triggered();
-//    void on_actionAdjust_brightness_triggered();
-//    void on_actionCold_triggered();
-//    void on_actionWorm_triggered();
+    void on_actionRotate_triggered();
+    void on_actionAdjust_brightness_triggered();
+    void on_actionCold_triggered();
+    void on_actionWorm_triggered();
+    void on_actionSelf_triggered();
 
-//    void on_actionSelf_triggered();
-//    void on_actionFrame_triggered();
-
+//      void on_actionBinar_change_triggered();
+//      void on_actionLinear_change_triggered();
 //    void on_actionSimple_triggered();
 //    void on_actionGauss_triggered();
 //    void on_actionAverage_triggered();
