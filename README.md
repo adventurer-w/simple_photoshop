@@ -1,6 +1,6 @@
 # 「simple_photoshop」软件功能设计文档
 
-**20级夏季学期程序设计实践**    [github项目地址](https://github.com/z-yyy/simple_photoshop)
+   [github项目地址](https://github.com/z-yyy/simple_photoshop)
 
 
 
