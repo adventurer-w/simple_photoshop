@@ -1,6 +1,10 @@
 # 「simple_photoshop」软件功能设计文档
 
-   [github项目地址](https://github.com/z-yyy/simple_photoshop)
+   
+
+[github项目地址](https://github.com/z-yyy/simple_photoshop)
+
+[视频地址](https://www.bilibili.com/video/BV1gh411p7b4)
 
 
 
