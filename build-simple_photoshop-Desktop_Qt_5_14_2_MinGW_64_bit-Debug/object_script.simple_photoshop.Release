@@ -1,0 +1,10 @@
+release/graphicsview.o
+release/histogram.o
+release/imagecropperlabel.o
+release/main.o
+release/mainwindow.o
+release/myfactory.o
+release/qrc_res.o
+release/moc_imagecropperdialog.o
+release/moc_imagecropperlabel.o
+release/moc_mainwindow.o

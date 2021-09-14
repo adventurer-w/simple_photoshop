@@ -1,0 +1,10 @@
+debug/graphicsview.o
+debug/histogram.o
+debug/imagecropperlabel.o
+debug/main.o
+debug/mainwindow.o
+debug/myfactory.o
+debug/qrc_res.o
+debug/moc_imagecropperdialog.o
+debug/moc_imagecropperlabel.o
+debug/moc_mainwindow.o

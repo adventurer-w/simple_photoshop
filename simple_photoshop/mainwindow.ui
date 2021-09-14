@@ -20,10 +20,10 @@
       <item>
        <layout class="QHBoxLayout" name="horizontalLayout_2">
         <item>
-         <widget class="QGraphicsView" name="leftGraphicsView"/>
+         <widget class="GraphicsView" name="leftGraphicsView" native="true"/>
         </item>
         <item>
-         <widget class="QGraphicsView" name="rightGraphicsView">
+         <widget class="GraphicsView" name="rightGraphicsView" native="true">
           <property name="enabled">
            <bool>true</bool>
           </property>
@@ -47,7 +47,7 @@
    <widget class="QMenu" name="menuFile">
     <property name="geometry">
      <rect>
-      <x>178</x>
+      <x>279</x>
       <y>116</y>
       <width>145</width>
       <height>189</height>
@@ -81,6 +81,7 @@
     <addaction name="actionSmall"/>
     <addaction name="actionRotate"/>
     <addaction name="menu_4"/>
+    <addaction name="actionCut"/>
     <addaction name="separator"/>
     <addaction name="actionAdjust_brightness"/>
    </widget>
@@ -112,9 +113,11 @@
      <property name="title">
       <string>相框</string>
      </property>
-     <addaction name="actionMovie"/>
+     <property name="icon">
+      <iconset resource="res.qrc">
+       <normaloff>:/image/tupian.png</normaloff>:/image/tupian.png</iconset>
+     </property>
      <addaction name="actionClassic"/>
-     <addaction name="actionFlower"/>
     </widget>
     <addaction name="menu_art"/>
     <addaction name="menu"/>
@@ -124,7 +127,6 @@
      <string>模糊与锐化</string>
     </property>
     <addaction name="actionSimple"/>
-    <addaction name="actionGauss"/>
     <addaction name="separator"/>
     <addaction name="actionAverage"/>
     <addaction name="actionMeida_Filter"/>
@@ -136,7 +138,6 @@
      <string>查看</string>
     </property>
     <addaction name="actionHistogram"/>
-    <addaction name="actionGrayscale"/>
    </widget>
    <widget class="QMenu" name="menuGray_change">
     <property name="title">
@@ -288,26 +289,37 @@
    </property>
   </action>
   <action name="actionSimple">
+   <property name="icon">
+    <iconset resource="res.qrc">
+     <normaloff>:/image/mh.png</normaloff>:/image/mh.png</iconset>
+   </property>
    <property name="text">
     <string>简单模糊</string>
    </property>
   </action>
-  <action name="actionGauss">
-   <property name="text">
-    <string>高斯模糊</string>
-   </property>
-  </action>
   <action name="actionMeida_Filter">
+   <property name="icon">
+    <iconset resource="res.qrc">
+     <normaloff>:/image/lvbo.png</normaloff>:/image/lvbo.png</iconset>
+   </property>
    <property name="text">
     <string>中值滤波</string>
    </property>
   </action>
   <action name="actionLaplace">
+   <property name="icon">
+    <iconset resource="res.qrc">
+     <normaloff>:/image/Rh.png</normaloff>:/image/Rh.png</iconset>
+   </property>
    <property name="text">
     <string>拉普拉斯锐化</string>
    </property>
   </action>
   <action name="actionAverage">
+   <property name="icon">
+    <iconset resource="res.qrc">
+     <normaloff>:/image/lvbo.png</normaloff>:/image/lvbo.png</iconset>
+   </property>
    <property name="text">
     <string>均值滤波</string>
    </property>
@@ -357,32 +369,46 @@
     <string>自定义</string>
    </property>
   </action>
-  <action name="actionMovie">
-   <property name="text">
-    <string>电影</string>
-   </property>
-  </action>
   <action name="actionClassic">
    <property name="text">
     <string>经典</string>
    </property>
   </action>
-  <action name="actionFlower">
-   <property name="text">
-    <string>花花</string>
-   </property>
-  </action>
   <action name="actionLinear_change">
+   <property name="icon">
+    <iconset resource="res.qrc">
+     <normaloff>:/image/hb1.png</normaloff>:/image/hb1.png</iconset>
+   </property>
    <property name="text">
-    <string>线性变换</string>
+    <string>灰度图</string>
    </property>
   </action>
   <action name="actionBinar_change">
+   <property name="icon">
+    <iconset resource="res.qrc">
+     <normaloff>:/image/hb2.png</normaloff>:/image/hb2.png</iconset>
+   </property>
    <property name="text">
     <string>黑白化</string>
    </property>
   </action>
+  <action name="actionCut">
+   <property name="icon">
+    <iconset resource="res.qrc">
+     <normaloff>:/image/cj.png</normaloff>:/image/cj.png</iconset>
+   </property>
+   <property name="text">
+    <string>裁剪</string>
+   </property>
+  </action>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>GraphicsView</class>
+   <extends>QWidget</extends>
+   <header>graphicsview.h</header>
+  </customwidget>
+ </customwidgets>
  <resources>
   <include location="res.qrc"/>
  </resources>

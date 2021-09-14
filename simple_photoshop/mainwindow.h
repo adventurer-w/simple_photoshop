@@ -5,7 +5,8 @@
 #include"myfactory.h"
 #include"Mat.hpp"
 #include "graphicsview.h"
-
+#include "histogram.h"
+#include "imagecropperdialog.h"
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
 QT_END_NAMESPACE
@@ -25,6 +26,7 @@ public:
 
 
 private slots:
+    void on_actionAdjust_triggered();
 
     void on_actionOpen_triggered();
     void on_actionClose_triggered();
@@ -38,22 +40,23 @@ private slots:
     void on_actionRestore_triggered();
     void on_actionBig_triggered();
     void on_actionSmall_triggered();
+    void on_actionCut_triggered();
 
     void on_actionRotate_triggered();
     void on_actionAdjust_brightness_triggered();
     void on_actionCold_triggered();
     void on_actionWorm_triggered();
     void on_actionSelf_triggered();
+    void on_actionClassic_triggered();
 
-//      void on_actionBinar_change_triggered();
-//      void on_actionLinear_change_triggered();
-//    void on_actionSimple_triggered();
-//    void on_actionGauss_triggered();
-//    void on_actionAverage_triggered();
-//    void on_actionMeida_Filter_triggered();
-//    void on_actionLaplace_triggered();
+    void on_actionBinar_change_triggered();
+    void on_actionLinear_change_triggered();
+    void on_actionSimple_triggered();
+    void on_actionAverage_triggered();
+    void on_actionMeida_Filter_triggered();
+    void on_actionLaplace_triggered();
 
-//    void on_actionHistogram_triggered();
+    void on_actionHistogram_triggered();
 //    void on_actionGrayscale_triggered();
 
 private:

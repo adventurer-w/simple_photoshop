@@ -24,5 +24,17 @@
         <file>image/wjj.png</file>
         <file>image/关闭.png</file>
         <file>image/画画.png</file>
+        <file>image/frame_1.png</file>
+        <file>image/frame_2.png</file>
+        <file>image/frame_3.png</file>
+        <file>image/adjust.png</file>
+        <file>image/cj.png</file>
+        <file>image/hb1.png</file>
+        <file>image/hb2.png</file>
+        <file>image/hd.png</file>
+        <file>image/lvbo.png</file>
+        <file>image/mh.png</file>
+        <file>image/Rh.png</file>
+        <file>image/tubiao.png</file>
     </qresource>
 </RCC>

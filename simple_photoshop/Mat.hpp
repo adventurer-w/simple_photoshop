@@ -27,6 +27,7 @@
 #include <QPixmap>
 #include <math.h>
 #include <QColorDialog>
+#include<cmath>
 
 template< typename T>
 class Mat
@@ -61,9 +62,9 @@ public:
     Mat<double> Normalize(); // 该函数把矩阵的数据线性缩放至[0,1]区间;
 
     Mat<T> Flip(int code); //翻转; 根据code的值：0:左右翻转，1:上下翻转;
-    Mat<T> Resize(int h, int w); //缩放
+
     Mat<T> Crop(int x1, int y1, int x2, int y2);//裁剪点(x1,y1)到点(x2,y2)
-    Mat<T> Rotate(int degree);//旋转，90度的整数倍
+
     T Variance(int op);//求图像的方差
     Mat<T> Transpose(); // 转置
 
@@ -77,11 +78,20 @@ public:
     Mat<T> Mult_all(double s);
     Mat<T> Cat(Mat<T> &m, int code); // 将m与当前对象进行拼接，code代表拼接的方式
 
-    Mat<T> Mymix(int r,int g,int b);
+    Mat<T> Resize(int h, int w); //缩放
+    Mat<T> Rotate(int degree);//旋转
+
+    Mat<T> AverageFilter(int filterSize=3);             //均值滤波
+    Mat<T> MedianFilter(int filterSize=3);              //中值滤波
+    Mat<T> SimpleVague();                               //模糊
+    Mat<T> LaplaceSharpen();                            //拉普拉斯锐化
+
+    Mat<T> Mymix(int r,int g,int b);   //颜色滤镜
+    Mat<T> Frame(Mat<T> ad);     //相框
 
     Mat<T> Clone(); // 从当前对象拷贝创建一个新的矩阵，完成深拷贝
-    T Mean(int op) ;
-    T Median(int op) ;
+    T *Mean() ;
+    T *Median() ;
 
     Mat<T>& operator=(const Mat<T> &m);  //重载赋值运算符，完成对象间的拷贝；
     bool operator==(const Mat<T> &m);  //判断两个Mat对象是否相等
@@ -480,70 +490,72 @@ Mat<T> Mat<T>::Resize(int h, int w){
     if (IsEmpty()) {
 
     }
+    Mat<T> temp(h,w);
 
     double hi = height*1.0 / h;
     double wi = width*1.0 / w;
-    std::cout<<height<<"  "<<h;
-    auto Rtemp = new T* [h];
-    auto Gtemp = new T* [h];
-    auto Btemp = new T* [h];
-    for (int i = 0; i < h; ++i) {
-        Rtemp[i] = new T[w];
-        Gtemp[i] = new T[w];
-        Btemp[i] = new T[w];
-    }
+
 
     for (int i = 0; i < h; ++i) {
         for (int j = 0; j < w; ++j) {
-            Rtemp[i][j] = Rdata[(int)(i*hi)][(int)(j*wi)];
-            Gtemp[i][j] = Gdata[(int)(i*hi)][(int)(j*wi)];
-            Btemp[i][j] = Bdata[(int)(i*hi)][(int)(j*wi)];
+            double yp=i*hi , xp= j*wi;
+            int x1,y1,x2,y2;
+            double r1=0,b1=0,g1=0,r2=0,g2=0,b2=0;
+
+            x1=floor(xp);
+            x2=ceil(xp);
+            y1=floor(yp);
+            y2=ceil(yp);
+            if((x2<width&&y2<height)&&x1!=x2&&y1!=y2){
+                r1 = (x2-xp)*Rdata[y1][x1]+(xp-x1)*Rdata[y1][x2];
+                r2 = (x2-xp)*Rdata[y2][x1]+(xp-x1)*Rdata[y2][x2];
+                temp.Rdata[i][j] = (y2-yp)*r1+(yp-y1)*r2;
+
+                g1 = (x2-xp)*Gdata[y1][x1]+(xp-x1)*Gdata[y1][x2];
+                g2 = (x2-xp)*Gdata[y2][x1]+(xp-x1)*Gdata[y2][x2];
+                temp.Gdata[i][j] = (y2-yp)*g1+(yp-y1)*g2;
+
+                b1 = (x2-xp)*Bdata[y1][x1]+(xp-x1)*Bdata[y1][x2];
+                b2 = (x2-xp)*Bdata[y2][x1]+(xp-x1)*Bdata[y2][x2];
+                temp.Bdata[i][j] = (y2-yp)*b1+(yp-y1)*b2;
+            }else{
+                temp.Rdata[i][j] = Rdata[y1][x1];
+                temp.Gdata[i][j] = Gdata[y1][x1];
+                temp.Bdata[i][j] = Bdata[y1][x1];
+            }
+
+
+//            int y=i*hi , x= j*wi;
+//            temp.Rdata[i][j] = Rdata[y][x];
+//            temp.Gdata[i][j] = Gdata[y][x];
+//            temp.Bdata[i][j] = Bdata[y][x];
+
         }
     }
 
-    Mat<T> temp(h,w);
-    temp.Rdata = Rtemp;
-    temp.Gdata = Gtemp;
-    temp.Bdata = Btemp;
-    temp.width = w;
-    temp.height = h;
+
+
     return temp;
 }
 
 template< typename T>
 Mat<T> Mat<T>::Crop(int x1, int y1, int x2, int y2){
 
-    if (x1 > x2) std::swap(x1, x2);
-    if (y1 > y2) std::swap(y1, y2);
-    if (x1 < 0 || y1 < 0 || x2 >= width || y2 >= height) {
-        std::cout<<"越界";
-    }
+    x1 = x1 < 0 ? 0 : x1;
+    y1 = y1 < 0 ? 0 : y1;
+    x2 = x2 < width ? x2 : width - 1;
+    y2 = y2 < height ? y2 : height - 1;
 
-    int h = abs(y2 - y1);
-    int w = abs(x2 - x1);
-    auto Rtemp = new T* [h];
-    auto Gtemp = new T* [h];
-    auto Btemp = new T* [h];
+    Mat<double> tp(y2 - y1 + 1, x2 - x1 + 1);
+    for (int i = y1; i <= y2; ++i) {
+         for (int j = x1; j <= x2; ++j) {
+               tp.Rdata[i - y1][j - x1] = Rdata[i][j];
+               tp.Gdata[i - y1][j - x1] = Gdata[i][j];
+               tp.Bdata[i - y1][j - x1] = Bdata[i][j];
+          }
+   }
 
-    for (int i = 0; i < h; ++i) {
-        Rtemp[i] = new T [w];
-        Gtemp[i] = new T [w];
-        Btemp[i] = new T [w];
-        for (int j = 0; j < w; ++j) {
-            Rtemp[i][j] = Rdata[x1 + i][y1 + j];
-            Gtemp[i][j] = Gdata[x1 + i][y1 + j];
-            Btemp[i][j] = Bdata[x1 + i][y1 + j];
-        }
-    }
-
-    Mat<T> temp;
-
-    temp.width = w;
-    temp.height = h;
-    temp.Rdata = Rtemp;
-    temp.Gdata = Gtemp;
-    temp.Bdata = Btemp;
-    return temp;
+    return tp;
 }
 
 template<typename T>
@@ -581,14 +593,35 @@ Mat<T> Mat<T>::Rotate(int degree){
     {
         for (int j = 0; j < wt; j++)
         {
-            double x = i * c + j * s + di;
-            double y = j * c - i * s + dj;
-            if (x >= height || y >= width || x < 0 || y < 0){
+            double yp = i * c + j * s + di;
+            double xp = j * c - i * s + dj;
+            if (yp >= height || xp >= width || xp < 0 || yp < 0){
                 temp.Rdata[i][j] = temp.Gdata[i][j] = temp.Bdata[i][j]=225;
             }else {
-                temp.Rdata[i][j] = Rdata[(int)x][(int)y];
-                temp.Gdata[i][j] = Gdata[(int)x][(int)y];
-                temp.Bdata[i][j] = Bdata[(int)x][(int)y];
+                int x1,y1,x2,y2;
+                double r1=0,b1=0,g1=0,r2=0,g2=0,b2=0;
+
+                x1=floor(xp);
+                x2=ceil(xp);
+                y1=floor(yp);
+                y2=ceil(yp);
+                if((x2<width&&y2<height)&&x1!=x2&&y1!=y2){
+                    r1 = (x2-xp)*Rdata[y1][x1]+(xp-x1)*Rdata[y1][x2];
+                    r2 = (x2-xp)*Rdata[y2][x1]+(xp-x1)*Rdata[y2][x2];
+                    temp.Rdata[i][j] = (y2-yp)*r1+(yp-y1)*r2;
+
+                    g1 = (x2-xp)*Gdata[y1][x1]+(xp-x1)*Gdata[y1][x2];
+                    g2 = (x2-xp)*Gdata[y2][x1]+(xp-x1)*Gdata[y2][x2];
+                    temp.Gdata[i][j] = (y2-yp)*g1+(yp-y1)*g2;
+
+                    b1 = (x2-xp)*Bdata[y1][x1]+(xp-x1)*Bdata[y1][x2];
+                    b2 = (x2-xp)*Bdata[y2][x1]+(xp-x1)*Bdata[y2][x2];
+                    temp.Bdata[i][j] = (y2-yp)*b1+(yp-y1)*b2;
+                }else{
+                    temp.Rdata[i][j] = Rdata[y1][x1];
+                    temp.Gdata[i][j] = Gdata[y1][x1];
+                    temp.Bdata[i][j] = Bdata[y1][x1];
+                }
             }
         }
     }
@@ -645,6 +678,79 @@ Mat<T> Mat<T>::Transpose() {
 
     std::swap(width, height);
     return tp;
+}
+
+template< typename T>
+Mat<T> Mat<T>::SimpleVague(){
+    Mat<T> tp;
+    tp = *this;
+    int kernel[5][5] = {
+        {0,0,1,0,0},
+        {0,1,3,1,0},
+        {1,3,7,3,1},
+        {0,1,3,1,0},
+        {0,0,1,0,0}
+    };
+    int kernelSize = 5;
+    int sumKernel=27;
+    int r,g,b;
+    for(int x=kernelSize/2; x<width-kernelSize/2; x++)
+    {
+        for (int y=kernelSize/2; y<height-kernelSize/2; y++)
+        {
+            r = g = b = 0;
+            for (int i=-kernelSize/2; i<=kernelSize/2; i++)
+            {
+                for (int j=-kernelSize/2; j<=kernelSize/2; j++)
+                {
+
+                    r += Rdata[x+i][y+j]*kernel[kernelSize/2+i][kernelSize/2+j];
+                    g += Gdata[x+i][y+j]*kernel[kernelSize/2+i][kernelSize/2+j];
+                    b += Bdata[x+i][y+j]*kernel[kernelSize/2+i][kernelSize/2+j];
+                }
+            }
+            tp.Rdata[x][y] = qBound(0, r/sumKernel, 255);
+            tp.Gdata[x][y] = qBound(0, g/sumKernel, 255);
+            tp.Bdata[x][y] = qBound(0, b/sumKernel, 255);
+        }
+    }
+    return tp;
+}
+
+
+template< typename T>
+Mat<T> Mat<T>::LaplaceSharpen(){
+    Mat<T> tp;
+    tp = *this;
+    int window[3][3] = {
+            {0,-1,0},
+            {-1,5,-1},
+            {0,-1,0}
+   };
+   int kernelSize = 3;
+   int r,g,b;
+   for(int x=kernelSize/2; x<width-kernelSize/2; x++)
+   {
+       for (int y=kernelSize/2; y<height-kernelSize/2; y++)
+       {
+           r = g = b = 0;
+           for (int i=-kernelSize/2; i<=kernelSize/2; i++)
+           {
+               for (int j=-kernelSize/2; j<=kernelSize/2; j++)
+               {
+
+                   r += Rdata[x+i][y+j]*window[kernelSize/2+i][kernelSize/2+j];
+                   g += Gdata[x+i][y+j]*window[kernelSize/2+i][kernelSize/2+j];
+                   b += Bdata[x+i][y+j]*window[kernelSize/2+i][kernelSize/2+j];
+               }
+           }
+           tp.Rdata[x][y] = qBound(0, r, 255);
+           tp.Gdata[x][y] = qBound(0, g, 255);
+           tp.Bdata[x][y] = qBound(0, b, 255);
+       }
+   }
+
+   return tp;
 }
 
 template< typename T>
@@ -711,9 +817,9 @@ template< typename T>
 void Mat<T>::Set(T *value){
     for (int i = 0; i < height; ++i) {
         for (int j = 0; j < width; ++j) {
-            Rdata[i][j] = value;
-            Gdata[i][j] = value;
-            Bdata[i][j] = value;
+            Rdata[i][j] = value[0];
+            Gdata[i][j] = value[1];
+            Bdata[i][j] = value[2];
         }
     }
 }
@@ -897,6 +1003,50 @@ Mat<T> Mat<T>::Divi_all(double s) {
 }
 
 template<typename T>
+Mat<T> Mat<T>::AverageFilter(int filterSize){
+    Mat<T> tp(height,width);
+    for (int i = 0; i < height; ++i) {
+            for (int j = 0; j < width; ++j) {
+                int x1= j - filterSize / 2,y1=i - filterSize / 2,x2=j + filterSize / 2,y2=i + filterSize / 2;
+                if(x1<0||x1>=width||x2<0||x2<0||x2>=width||y1<0||y1>=height||y2<0||y2>=height){
+                    tp.Rdata[i][j] = Rdata[i][j];
+                    tp.Gdata[i][j] = Gdata[i][j];
+                    tp.Bdata[i][j] = Bdata[i][j];
+                }else{
+                    Mat<double> sm = Crop(x1,y1 ,x2 ,y2);
+                    T *col = sm.Mean();
+                    tp.Rdata[i][j] = col[0];
+                    tp.Gdata[i][j] = col[1];
+                    tp.Bdata[i][j] = col[2];
+                }
+            }
+     }
+    return tp;
+}
+
+template<typename T>
+Mat<T> Mat<T>::MedianFilter(int filterSize){
+    Mat<T> tp(height,width);
+    for (int i = 0; i < height; ++i) {
+            for (int j = 0; j < width; ++j) {
+                int x1=j - filterSize / 2,y1=i - filterSize / 2,x2=j + filterSize / 2,y2=i + filterSize / 2;
+                if(x1<0||x1>=width||x2<0||x2<0||x2>=width||y1<0||y1>=height||y2<0||y2>=height){
+                    tp.Rdata[i][j] = Rdata[i][j];
+                    tp.Gdata[i][j] = Gdata[i][j];
+                    tp.Bdata[i][j] = Bdata[i][j];
+                }else{
+                    Mat<double> sm = Crop(x1,y1 ,x2 ,y2);
+                    T *col = sm.Median();
+                    tp.Rdata[i][j] = col[0];
+                    tp.Gdata[i][j] = col[1];
+                    tp.Bdata[i][j] = col[2];
+                }
+            }
+     }
+    return tp;
+}
+
+template<typename T>
 Mat<T> Mat<T>::Divi(double s,int op)
 {
     Mat<T> tp(*this);
@@ -1024,71 +1174,67 @@ Mat<T> Mat<T>:: Clone(){
 }
 
 template<typename T>
-T Mat<T>::Mean(int op)
-{
-    if (IsEmpty()) {
-        return 0;
-    }
-    T res = 0;
-    if(op==0){
-        for (int i = 0; i < height; ++i) {
-            for (int j = 0; j < width; ++j) {
-                res += Rdata[i][j];
-            }
-        }
-    }else if(op==1){
-        for (int i = 0; i < height; ++i) {
-            for (int j = 0; j < width; ++j) {
-                res += Gdata[i][j];
-            }
-        }
-    }else{
-        for (int i = 0; i < height; ++i) {
-            for (int j = 0; j < width; ++j) {
-                res += Bdata[i][j];
-            }
+T* Mat<T>::Mean(){
+    T *ans = new T[3];
+    double r=0,g=0,b=0;
+    for(int i=0;i< height;i++){
+        for(int j = 0; j < width ;++j){
+            r += Rdata[i][j];
+            g += Gdata[i][j];
+            b += Bdata[i][j];
         }
     }
+    ans[0] = r/(height*width);
+    ans[1] = g/(height*width);
+    ans[2] = b/(height*width);
 
-    res /= (T)width * height;
-    return res;
+    return ans;
 }
 
 template<typename T>
-T Mat<T>::Median(int op){
-    if (IsEmpty()) {
-        return 0;
+T* Mat<T>::Median(){
+
+    std::vector<T> temp[3];
+    for (int i = 0; i < height; ++i) {
+        for (int j = 0; j < width; ++j) {
+            temp[0].push_back(Rdata[i][j]);
+            temp[1].push_back(Gdata[i][j]);
+            temp[2].push_back(Bdata[i][j]);
+         }
     }
-    std::vector<T> temp;
-    if(op==0){
-        for (int i = 0; i < height; ++i) {
-            for (int j = 0; j < width; ++j) {
-                temp.push_back(Rdata[i][j]);
-            }
-        }
-    }else if(op==1){
-        for (int i = 0; i < height; ++i) {
-            for (int j = 0; j < width; ++j) {
-                temp.push_back(Gdata[i][j]);
-            }
-        }
-    }else{
-        for (int i = 0; i < height; ++i) {
-            for (int j = 0; j < width; ++j) {
-                temp.push_back(Bdata[i][j]);
-            }
-        }
-    }
-    sort(temp.begin(),temp.end());
-    if (temp.size() % 2) {
-        return temp[temp.size() / 2];
-    }
-    else {
+    sort(temp[0].begin(),temp[0].end());
+    sort(temp[1].begin(),temp[1].end());
+    sort(temp[2].begin(),temp[2].end());
+    int sz= height*width;
+    T *ans = new T[3];
+    if (sz % 2) {
+        ans[0] = temp[0][sz / 2];
+    }else {
         double res = 0;
-        res += temp[temp.size() / 2];
-        res += temp[temp.size() / 2 - 1];
-        return res / 2;
+        res += temp[0][sz / 2];
+        res += temp[0][sz / 2 - 1];
+        ans[0] = res/2;
     }
+
+    if (sz % 2) {
+        ans[1] = temp[1][sz / 2];
+    }else {
+        double res = 0;
+        res += temp[1][sz / 2];
+        res += temp[1][sz / 2 - 1];
+        ans[1] = res/2;
+    }
+
+    if (sz % 2) {
+        ans[2] = temp[2][sz / 2];
+    }else {
+        double res = 0;
+        res += temp[2][sz / 2];
+        res += temp[2][sz / 2 - 1];
+        ans[2] = res/2;
+    }
+
+    return ans;
 }
 
 template<typename T>
@@ -1153,6 +1299,26 @@ Mat<T> Mat<T>::operator--(int)
     *this = Add(*this, a);
     return temp;
 }
+
+template<typename  T>
+Mat<T> Mat<T>::Frame(Mat<T> ad){
+    Mat<T> tp(height,width);
+    for(int i=0;i<height;i++){
+        for(int j=0;j<width;j++){
+            if(ad.Rdata[i][j]==0 && ad.Gdata[i][j]==0 && ad.Bdata[i][j]==0){
+                tp.Rdata[i][j]=Rdata[i][j];
+                tp.Gdata[i][j]=Gdata[i][j];
+                tp.Bdata[i][j]=Bdata[i][j];
+            }else{
+                tp.Rdata[i][j]=ad.Rdata[i][j];
+                tp.Gdata[i][j]=ad.Gdata[i][j];
+                tp.Bdata[i][j]=ad.Bdata[i][j];
+            }
+        }
+    }
+    return tp;
+}
+
 
 template<typename  T>
 Mat<T> Mat<T>::operator-(){

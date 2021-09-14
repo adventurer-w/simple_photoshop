@@ -51,6 +51,7 @@ void MainWindow::createToolBar(){
     ui->toolBar->addSeparator();
     ui->toolBar->addAction(ui->actionRotate);
     ui->toolBar->addSeparator();
+    ui->toolBar->addAction(ui->actionCut);
 }
 
 void MainWindow::createAction()
@@ -82,11 +83,8 @@ void MainWindow::setActionStatus(bool status)
     ui->actionSelf->setEnabled(status);
     ui->actionBinar_change->setEnabled(status);
     ui->actionLinear_change->setEnabled(status);
-    ui->actionMovie->setEnabled(status);
-    ui->actionFlower->setEnabled(status);
     ui->actionClassic->setEnabled(status);
     ui->actionSimple->setEnabled(status);
-    ui->actionGauss->setEnabled(status);
     ui->actionAverage->setEnabled(status);
     ui->actionMeida_Filter->setEnabled(status);
     ui->actionLaplace->setEnabled(status);
@@ -97,6 +95,7 @@ void MainWindow::setActionStatus(bool status)
     ui->menuEdit->setEnabled(status);
     ui->menuArtistic_Effect->setEnabled(status);
     ui->menuGray_change->setEnabled(status);
+    ui->actionCut->setEnabled(status);
 }
 
 
@@ -158,9 +157,10 @@ void MainWindow::on_actionOpen_triggered()
         setActionStatus(true);
         size->setText(QString::number(leftPixmapItem->pixmap().width())
                       + " x " + QString::number(leftPixmapItem->pixmap().height()));
+         setActionStatus(true);
     }
 
-    setActionStatus(true);
+
 }
 
 void MainWindow::on_actionClose_triggered()
@@ -264,6 +264,7 @@ void MainWindow::on_actionRotate_triggered(){
     {
         if (factor != 0)
         {
+            factor*=-1;
             prMat = nowMat;
             nowMat = prMat.Rotate(factor);
             QPixmap rightPixmap=myfactory.getPixmap(nowMat);
@@ -300,6 +301,21 @@ void MainWindow::on_actionAdjust_brightness_triggered()
         }
     }
 }
+
+void MainWindow::on_actionCut_triggered(){
+
+    QPixmap pixmap = ImageCropperDialog::getCroppedImage(imagePath, 600, 400, CropperShape::SQUARE);
+    if (pixmap.isNull())
+        return;
+    prMat = nowMat;
+    QImage image = pixmap.toImage();
+    Mat<double> tp;
+    tp = myfactory.getMat(image);
+    nowMat = tp.Rotate(-90);
+    QPixmap rightPixmap=myfactory.getPixmap(nowMat);
+    updateRightImage(rightPixmap);
+}
+
 void MainWindow::on_actionCold_triggered()
 {
     prMat = nowMat;
@@ -326,3 +342,175 @@ void MainWindow::on_actionSelf_triggered(){
     updateRightImage(rightPixmap);
 }
 
+
+
+void MainWindow::on_actionClassic_triggered(){
+    QImage frame = QImage(":/image/frame_1.png");
+    QImage nframe = frame.scaled(nowMat.height,nowMat.width,Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
+    tempMat = myfactory.getMat(nframe);
+    prMat = nowMat;
+    nowMat = prMat.Frame(tempMat);
+    QPixmap rightPixmap=myfactory.getPixmap(nowMat);
+    updateRightImage(rightPixmap);
+}
+
+void MainWindow::on_actionLinear_change_triggered(){
+    prMat = nowMat;
+    nowMat = prMat.gray();
+    QPixmap rightPixmap=myfactory.getPixmap(nowMat);
+    updateRightImage(rightPixmap);
+}
+
+void MainWindow::on_actionBinar_change_triggered(){
+    bool ok;
+    int delta = QInputDialog::getInt(this,
+                                     tr("二值化"),
+                                     "请输入阈值0~255",
+                                     100,0,255,10,&ok);
+    if (ok)
+    {
+            prMat = nowMat;
+            nowMat = prMat.gray2bw(delta);
+            QPixmap rightPixmap=myfactory.getPixmap(nowMat);
+            updateRightImage(rightPixmap);
+    }
+}
+
+void MainWindow::on_actionAverage_triggered(){
+    bool ok;
+    int delta = QInputDialog::getInt(this,
+                                     tr("均值滤波"),
+                                     "请输入滤波器大小(1~7)",
+                                     3,1,7,1,&ok);
+    if (ok)
+    {
+            prMat = nowMat;
+            nowMat = prMat.AverageFilter(delta);
+            QPixmap rightPixmap=myfactory.getPixmap(nowMat);
+            updateRightImage(rightPixmap);
+    }
+}
+
+void MainWindow::on_actionMeida_Filter_triggered(){
+    bool ok;
+    int delta = QInputDialog::getInt(this,
+                                     tr("中值滤波"),
+                                     "请输入滤波器大小(1~7)",
+                                     3,1,7,1,&ok);
+    if (ok)
+    {
+            prMat = nowMat;
+            nowMat = prMat.MedianFilter(delta);
+            QPixmap rightPixmap=myfactory.getPixmap(nowMat);
+            updateRightImage(rightPixmap);
+    }
+}
+
+void MainWindow::on_actionSimple_triggered(){
+    prMat = nowMat;
+    nowMat = prMat.SimpleVague();
+    QPixmap rightPixmap=myfactory.getPixmap(nowMat);
+    updateRightImage(rightPixmap);
+}
+
+void MainWindow::on_actionLaplace_triggered(){
+    prMat = nowMat;
+    nowMat = prMat.LaplaceSharpen();
+    QPixmap rightPixmap=myfactory.getPixmap(nowMat);
+    updateRightImage(rightPixmap);
+}
+
+void MainWindow::on_actionHistogram_triggered()
+{
+
+    QDialog * hstgrmDialog = new QDialog(this);
+    QScrollArea * scrollArea = new QScrollArea(hstgrmDialog);
+    Histogram * hstgrm = new Histogram(scrollArea);
+    hstgrm->computeHstgrm(rightPixmapItem->pixmap().toImage());
+
+    if (hstgrm == nullptr)
+        return;
+
+
+    scrollArea->setWidget(hstgrm);
+
+    QHBoxLayout * layout = new QHBoxLayout;
+    layout->addWidget(scrollArea);
+    hstgrmDialog->setLayout(layout);
+
+    hstgrm->resize(800, 780);
+    hstgrmDialog->setFixedWidth(820);
+    hstgrmDialog->setFixedHeight(650);
+    scrollArea->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    scrollArea->adjustSize();
+
+    hstgrmDialog->setWindowTitle("直方图");
+
+    hstgrmDialog->show();
+}
+
+void MainWindow::on_actionAdjust_triggered()
+{
+    // left
+    int height = leftPixmapItem->pixmap().height();
+    int width = leftPixmapItem->pixmap().width();
+    int max_height = ui->leftGraphicsView->height();
+    int max_width = ui->leftGraphicsView->width();
+    int size,max_size,fact=0;
+    double val=0;
+
+
+    size = qMin(width,height);
+    max_size = qMin(max_width,max_height);
+
+
+    if (size < max_size) {
+        while ((size*val) < max_size)
+            val = pow(1.2,fact++);
+        val = pow(1.2,fact-2);
+        ui->leftGraphicsView->setFactor(fact-2);
+    }
+
+    else {
+        val = 1;
+        while ((size*val) > max_size)
+            val = pow(1.2,fact--);
+        val = pow(1.2,fact+1);
+        ui->leftGraphicsView->setFactor(fact+1);
+    }
+
+    ui->leftGraphicsView->scale(val,val);
+
+
+    // right
+    height = leftPixmapItem->pixmap().height();
+    width = leftPixmapItem->pixmap().width();
+    max_height = ui->rightGraphicsView->height();
+    max_width = ui->rightGraphicsView->width();
+    size = max_size = fact = 0;
+    val=0;
+
+
+    size = qMin(width,height);
+    max_size = qMin(max_width,max_height);
+
+
+    if (size < max_size) {
+        while ((size*val) < max_size)
+            val = pow(1.2,fact++);
+        val = pow(1.2,fact-2);
+        ui->rightGraphicsView->setFactor(fact-2);
+    }
+
+    else {
+        val = 1;
+        while ((size*val) > max_size)
+            val = pow(1.2,fact--);
+        val = pow(1.2,fact+1);
+        ui->rightGraphicsView->setFactor(fact+1);
+    }
+
+    ui->rightGraphicsView->scale(val,val);
+
+
+}

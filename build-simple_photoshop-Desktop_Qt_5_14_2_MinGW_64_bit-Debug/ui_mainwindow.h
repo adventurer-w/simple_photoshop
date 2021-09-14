@@ -13,7 +13,6 @@
 #include <QtGui/QIcon>
 #include <QtWidgets/QAction>
 #include <QtWidgets/QApplication>
-#include <QtWidgets/QGraphicsView>
 #include <QtWidgets/QHBoxLayout>
 #include <QtWidgets/QMainWindow>
 #include <QtWidgets/QMenu>
@@ -22,6 +21,7 @@
 #include <QtWidgets/QToolBar>
 #include <QtWidgets/QVBoxLayout>
 #include <QtWidgets/QWidget>
+#include "graphicsview.h"
 
 QT_BEGIN_NAMESPACE
 
@@ -45,7 +45,6 @@ public:
     QAction *actionCold;
     QAction *actionWorm;
     QAction *actionSimple;
-    QAction *actionGauss;
     QAction *actionMeida_Filter;
     QAction *actionLaplace;
     QAction *actionAverage;
@@ -54,17 +53,16 @@ public:
     QAction *actionGrayscale;
     QAction *actionSmall;
     QAction *actionSelf;
-    QAction *actionMovie;
     QAction *actionClassic;
-    QAction *actionFlower;
     QAction *actionLinear_change;
     QAction *actionBinar_change;
+    QAction *actionCut;
     QWidget *centralwidget;
     QVBoxLayout *verticalLayout;
     QVBoxLayout *verticalLayout_2;
     QHBoxLayout *horizontalLayout_2;
-    QGraphicsView *leftGraphicsView;
-    QGraphicsView *rightGraphicsView;
+    GraphicsView *leftGraphicsView;
+    GraphicsView *rightGraphicsView;
     QMenuBar *menubar;
     QMenu *menuFile;
     QMenu *menuEdit;
@@ -144,49 +142,64 @@ public:
         actionWorm->setObjectName(QString::fromUtf8("actionWorm"));
         actionSimple = new QAction(MainWindow);
         actionSimple->setObjectName(QString::fromUtf8("actionSimple"));
-        actionGauss = new QAction(MainWindow);
-        actionGauss->setObjectName(QString::fromUtf8("actionGauss"));
+        QIcon icon9;
+        icon9.addFile(QString::fromUtf8(":/image/mh.png"), QSize(), QIcon::Normal, QIcon::Off);
+        actionSimple->setIcon(icon9);
         actionMeida_Filter = new QAction(MainWindow);
         actionMeida_Filter->setObjectName(QString::fromUtf8("actionMeida_Filter"));
+        QIcon icon10;
+        icon10.addFile(QString::fromUtf8(":/image/lvbo.png"), QSize(), QIcon::Normal, QIcon::Off);
+        actionMeida_Filter->setIcon(icon10);
         actionLaplace = new QAction(MainWindow);
         actionLaplace->setObjectName(QString::fromUtf8("actionLaplace"));
+        QIcon icon11;
+        icon11.addFile(QString::fromUtf8(":/image/Rh.png"), QSize(), QIcon::Normal, QIcon::Off);
+        actionLaplace->setIcon(icon11);
         actionAverage = new QAction(MainWindow);
         actionAverage->setObjectName(QString::fromUtf8("actionAverage"));
+        actionAverage->setIcon(icon10);
         actionAdjust_brightness = new QAction(MainWindow);
         actionAdjust_brightness->setObjectName(QString::fromUtf8("actionAdjust_brightness"));
-        QIcon icon9;
-        icon9.addFile(QString::fromUtf8(":/image/taiyang1.png"), QSize(), QIcon::Normal, QIcon::Off);
-        actionAdjust_brightness->setIcon(icon9);
+        QIcon icon12;
+        icon12.addFile(QString::fromUtf8(":/image/taiyang1.png"), QSize(), QIcon::Normal, QIcon::Off);
+        actionAdjust_brightness->setIcon(icon12);
         actionHistogram = new QAction(MainWindow);
         actionHistogram->setObjectName(QString::fromUtf8("actionHistogram"));
-        QIcon icon10;
-        icon10.addFile(QString::fromUtf8(":/image/tongjitu1.png"), QSize(), QIcon::Normal, QIcon::Off);
-        actionHistogram->setIcon(icon10);
+        QIcon icon13;
+        icon13.addFile(QString::fromUtf8(":/image/tongjitu1.png"), QSize(), QIcon::Normal, QIcon::Off);
+        actionHistogram->setIcon(icon13);
         actionGrayscale = new QAction(MainWindow);
         actionGrayscale->setObjectName(QString::fromUtf8("actionGrayscale"));
-        QIcon icon11;
-        icon11.addFile(QString::fromUtf8(":/image/tongjitu.png"), QSize(), QIcon::Normal, QIcon::Off);
-        actionGrayscale->setIcon(icon11);
+        QIcon icon14;
+        icon14.addFile(QString::fromUtf8(":/image/tongjitu.png"), QSize(), QIcon::Normal, QIcon::Off);
+        actionGrayscale->setIcon(icon14);
         actionSmall = new QAction(MainWindow);
         actionSmall->setObjectName(QString::fromUtf8("actionSmall"));
-        QIcon icon12;
-        icon12.addFile(QString::fromUtf8(":/image/fangdasuoxiao_Y.png"), QSize(), QIcon::Normal, QIcon::Off);
-        actionSmall->setIcon(icon12);
+        QIcon icon15;
+        icon15.addFile(QString::fromUtf8(":/image/fangdasuoxiao_Y.png"), QSize(), QIcon::Normal, QIcon::Off);
+        actionSmall->setIcon(icon15);
         actionSelf = new QAction(MainWindow);
         actionSelf->setObjectName(QString::fromUtf8("actionSelf"));
-        QIcon icon13;
-        icon13.addFile(QString::fromUtf8(":/image/\347\224\273\347\224\273.png"), QSize(), QIcon::Normal, QIcon::Off);
-        actionSelf->setIcon(icon13);
-        actionMovie = new QAction(MainWindow);
-        actionMovie->setObjectName(QString::fromUtf8("actionMovie"));
+        QIcon icon16;
+        icon16.addFile(QString::fromUtf8(":/image/\347\224\273\347\224\273.png"), QSize(), QIcon::Normal, QIcon::Off);
+        actionSelf->setIcon(icon16);
         actionClassic = new QAction(MainWindow);
         actionClassic->setObjectName(QString::fromUtf8("actionClassic"));
-        actionFlower = new QAction(MainWindow);
-        actionFlower->setObjectName(QString::fromUtf8("actionFlower"));
         actionLinear_change = new QAction(MainWindow);
         actionLinear_change->setObjectName(QString::fromUtf8("actionLinear_change"));
+        QIcon icon17;
+        icon17.addFile(QString::fromUtf8(":/image/hb1.png"), QSize(), QIcon::Normal, QIcon::Off);
+        actionLinear_change->setIcon(icon17);
         actionBinar_change = new QAction(MainWindow);
         actionBinar_change->setObjectName(QString::fromUtf8("actionBinar_change"));
+        QIcon icon18;
+        icon18.addFile(QString::fromUtf8(":/image/hb2.png"), QSize(), QIcon::Normal, QIcon::Off);
+        actionBinar_change->setIcon(icon18);
+        actionCut = new QAction(MainWindow);
+        actionCut->setObjectName(QString::fromUtf8("actionCut"));
+        QIcon icon19;
+        icon19.addFile(QString::fromUtf8(":/image/cj.png"), QSize(), QIcon::Normal, QIcon::Off);
+        actionCut->setIcon(icon19);
         centralwidget = new QWidget(MainWindow);
         centralwidget->setObjectName(QString::fromUtf8("centralwidget"));
         verticalLayout = new QVBoxLayout(centralwidget);
@@ -195,12 +208,12 @@ public:
         verticalLayout_2->setObjectName(QString::fromUtf8("verticalLayout_2"));
         horizontalLayout_2 = new QHBoxLayout();
         horizontalLayout_2->setObjectName(QString::fromUtf8("horizontalLayout_2"));
-        leftGraphicsView = new QGraphicsView(centralwidget);
+        leftGraphicsView = new GraphicsView(centralwidget);
         leftGraphicsView->setObjectName(QString::fromUtf8("leftGraphicsView"));
 
         horizontalLayout_2->addWidget(leftGraphicsView);
 
-        rightGraphicsView = new QGraphicsView(centralwidget);
+        rightGraphicsView = new GraphicsView(centralwidget);
         rightGraphicsView->setObjectName(QString::fromUtf8("rightGraphicsView"));
         rightGraphicsView->setEnabled(true);
 
@@ -218,7 +231,7 @@ public:
         menubar->setGeometry(QRect(0, 0, 1196, 26));
         menuFile = new QMenu(menubar);
         menuFile->setObjectName(QString::fromUtf8("menuFile"));
-        menuFile->setGeometry(QRect(178, 116, 145, 189));
+        menuFile->setGeometry(QRect(279, 116, 145, 189));
         menuEdit = new QMenu(menubar);
         menuEdit->setObjectName(QString::fromUtf8("menuEdit"));
         menu_4 = new QMenu(menuEdit);
@@ -228,11 +241,14 @@ public:
         menu_art = new QMenu(menuArtistic_Effect);
         menu_art->setObjectName(QString::fromUtf8("menu_art"));
         menu_art->setGeometry(QRect(413, 119, 145, 128));
-        QIcon icon14;
-        icon14.addFile(QString::fromUtf8(":/image/mofabang1.png"), QSize(), QIcon::Normal, QIcon::Off);
-        menu_art->setIcon(icon14);
+        QIcon icon20;
+        icon20.addFile(QString::fromUtf8(":/image/mofabang1.png"), QSize(), QIcon::Normal, QIcon::Off);
+        menu_art->setIcon(icon20);
         menu = new QMenu(menuArtistic_Effect);
         menu->setObjectName(QString::fromUtf8("menu"));
+        QIcon icon21;
+        icon21.addFile(QString::fromUtf8(":/image/tupian.png"), QSize(), QIcon::Normal, QIcon::Off);
+        menu->setIcon(icon21);
         menuBlur = new QMenu(menubar);
         menuBlur->setObjectName(QString::fromUtf8("menuBlur"));
         menuFind = new QMenu(menubar);
@@ -266,6 +282,7 @@ public:
         menuEdit->addAction(actionSmall);
         menuEdit->addAction(actionRotate);
         menuEdit->addAction(menu_4->menuAction());
+        menuEdit->addAction(actionCut);
         menuEdit->addSeparator();
         menuEdit->addAction(actionAdjust_brightness);
         menu_4->addAction(actionHorizontal);
@@ -275,18 +292,14 @@ public:
         menu_art->addAction(actionCold);
         menu_art->addAction(actionWorm);
         menu_art->addAction(actionSelf);
-        menu->addAction(actionMovie);
         menu->addAction(actionClassic);
-        menu->addAction(actionFlower);
         menuBlur->addAction(actionSimple);
-        menuBlur->addAction(actionGauss);
         menuBlur->addSeparator();
         menuBlur->addAction(actionAverage);
         menuBlur->addAction(actionMeida_Filter);
         menuBlur->addSeparator();
         menuBlur->addAction(actionLaplace);
         menuFind->addAction(actionHistogram);
-        menuFind->addAction(actionGrayscale);
         menuGray_change->addAction(actionLinear_change);
         menuGray_change->addAction(actionBinar_change);
         toolBar->addSeparator();
@@ -322,7 +335,6 @@ public:
         actionCold->setText(QCoreApplication::translate("MainWindow", "\345\206\267\350\211\262", nullptr));
         actionWorm->setText(QCoreApplication::translate("MainWindow", "\346\232\226\350\211\262", nullptr));
         actionSimple->setText(QCoreApplication::translate("MainWindow", "\347\256\200\345\215\225\346\250\241\347\263\212", nullptr));
-        actionGauss->setText(QCoreApplication::translate("MainWindow", "\351\253\230\346\226\257\346\250\241\347\263\212", nullptr));
         actionMeida_Filter->setText(QCoreApplication::translate("MainWindow", "\344\270\255\345\200\274\346\273\244\346\263\242", nullptr));
         actionLaplace->setText(QCoreApplication::translate("MainWindow", "\346\213\211\346\231\256\346\213\211\346\226\257\351\224\220\345\214\226", nullptr));
         actionAverage->setText(QCoreApplication::translate("MainWindow", "\345\235\207\345\200\274\346\273\244\346\263\242", nullptr));
@@ -331,11 +343,10 @@ public:
         actionGrayscale->setText(QCoreApplication::translate("MainWindow", "\347\201\260\345\272\246\345\233\276\345\203\217", nullptr));
         actionSmall->setText(QCoreApplication::translate("MainWindow", "\347\274\251\345\260\217", nullptr));
         actionSelf->setText(QCoreApplication::translate("MainWindow", "\350\207\252\345\256\232\344\271\211", nullptr));
-        actionMovie->setText(QCoreApplication::translate("MainWindow", "\347\224\265\345\275\261", nullptr));
         actionClassic->setText(QCoreApplication::translate("MainWindow", "\347\273\217\345\205\270", nullptr));
-        actionFlower->setText(QCoreApplication::translate("MainWindow", "\350\212\261\350\212\261", nullptr));
-        actionLinear_change->setText(QCoreApplication::translate("MainWindow", "\347\272\277\346\200\247\345\217\230\346\215\242", nullptr));
+        actionLinear_change->setText(QCoreApplication::translate("MainWindow", "\347\201\260\345\272\246\345\233\276", nullptr));
         actionBinar_change->setText(QCoreApplication::translate("MainWindow", "\351\273\221\347\231\275\345\214\226", nullptr));
+        actionCut->setText(QCoreApplication::translate("MainWindow", "\350\243\201\345\211\252", nullptr));
         menuFile->setTitle(QCoreApplication::translate("MainWindow", "\346\226\207\344\273\266", nullptr));
         menuEdit->setTitle(QCoreApplication::translate("MainWindow", "\347\274\226\350\276\221", nullptr));
         menu_4->setTitle(QCoreApplication::translate("MainWindow", "\347\277\273\350\275\254", nullptr));
